@@ -18,3 +18,13 @@
   display: flex;
   justify-content: space-between;
 }
+
+.navbar {
+  position: fixed;
+  z-index: 2;
+  width: 100vw;
+}
+
+.btn-navbar {
+  margin: auto .5em
+}

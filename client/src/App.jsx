@@ -8,7 +8,6 @@ import { useState, useEffect } from "react";
 import axiosInstance, { setAccessToken } from "./axiosInstance";
 import ProfileSettingsPage from './pages/ProfileSettingsPage/ProfileSettingsPage'
 import ProtectedRoute from "./ProtectedRoute";
-
 function App() {
   const [user, setUser] = useState({});
 

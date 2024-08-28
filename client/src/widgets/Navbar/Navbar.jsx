@@ -1,6 +1,17 @@
-import axiosInstance, { setAccessToken } from "../../axiosInstance";
-import styles from "./Navbar.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Box, Button, Flex, Image } from '@chakra-ui/react';
+import axiosInstance, { setAccessToken } from '../../axiosInstance';
+
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+
+function NavButton({ children, to }) {
+  return (
+    <Link to={to}>
+      <Button className="btn-navbar" colorScheme="orange">
+        {children}
+      </Button>
+    </Link>
+  );
+}
 
 export default function Navbar({ user, setUser }) {
   const navigate = useNavigate();
@@ -11,36 +22,48 @@ export default function Navbar({ user, setUser }) {
     );
     if (response.status === 200) {
       setUser({});
-      setAccessToken("");
-      navigate("/signin");
+      setAccessToken('');
+      navigate('/');
     }
   };
+  console.log(user);
+  const Links = ['Dashboard', 'Projects', 'Team'];
 
   return (
-    <div className={styles.wrapper}>
-      {/* <div>
-        <button onClick={() => navigate(-1)}>◀️</button>
-        <button onClick={() => navigate(+1)}>▶️</button>
-      </div> */}
-      {/* <Link to="/signin">На главную</Link> */}
-      {user?.username ? (
-        
-          <div className={styles.center}>
-          <Link to="/">Главная</Link>
-          <Link to="/ProfileSettingsPage">{user?.username} Личный кабинет </Link>       
-          <Link onClick={logoutHandler}>Выйти</Link>
-        </div>
-        
-      ) : (
-        <>
-          
-          <div className={styles.center}>
-            <Link to="/signin">Войти/</Link>
-            <> </>
-            <Link to="/signup">Регистрация</Link>
-          </div>
-        </>
-      )}
-    </div>
+    <>
+      <Box
+        className="navbar"
+        bg="gray.300"
+        height="3.75em"
+        padding=".6em"
+        rounded="sm"
+      >
+        <Flex justifyContent="space-between" margin="auto 0" padding="0 1em">
+          <Flex className="curt">
+            <Image
+              src="/doel.svg"
+              margin="auto"
+              marginLeft="0px"
+              marginRight="25px"
+              boxSize="30px"
+            ></Image>
+            <NavButton to="/">Home</NavButton>
+          </Flex>
+          <Box>
+            {Object.keys(user).length ? (
+              <>
+                <Button colorScheme="orange" onClick={logoutHandler}>Unlog</Button>
+                <NavButton to="/ProfileSettingsPage">LK</NavButton>
+              </>
+            ) : (
+              <>
+                <NavButton to="/signin">Log</NavButton>
+                <NavButton to="/signup">Reg</NavButton>
+              </>
+            )}
+          </Box>
+        </Flex>
+      </Box>
+    </>
   );
 }
