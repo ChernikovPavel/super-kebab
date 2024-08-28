@@ -12,6 +12,7 @@ module.exports = {
           discount: 50,
           user_id: 1,
           delivery_address: 'г. Пушкина',
+          status: 'available',
           coordinates: [59.70257936760503, 30.3656016400904],
         },
       ],
