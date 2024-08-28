@@ -2,6 +2,8 @@ require("dotenv").config()
 const jwt = require('jsonwebtoken');
 const jwtConfig = require('../configs/jwtConfig');
 
+console.log('1231', jwtConfig.access);
+
 module.exports = (payload) => ({
   accessToken: jwt.sign(
     payload,
