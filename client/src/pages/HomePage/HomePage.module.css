@@ -1,0 +1,12 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+  
+}
+
+.bgImg{background-image: url('../../../public/background.jpg') center no-repeat;
+  background-size: contain;}

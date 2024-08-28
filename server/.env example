@@ -1,0 +1,4 @@
+PORT=3100
+DB=postgres://[username]:[pass]@localhost5432/[dbname]
+SECRET_ACCESS_TOKEN=[]
+SECRET_REFRESH_TOKEN=[]
