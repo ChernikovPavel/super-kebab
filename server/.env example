@@ -1,4 +1,4 @@
 PORT=3100
-DB=postgres://[username]:[pass]@localhost5432/[dbname]
-SECRET_ACCESS_TOKEN=[]
-SECRET_REFRESH_TOKEN=[]
+DB=postgres://andrey_sh:123@localhost:5432/kebab
+ACCESS_TOKEN_SECRET=yastrikadlyaaccsesstokena
+REFRESH_TOKEN_SECRET=yastrikadlyarefreshtokena
