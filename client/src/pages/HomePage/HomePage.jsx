@@ -4,12 +4,9 @@ import { useState, useEffect } from "react";
 import axiosInstance from '../../tools/axiosInstance';
 import Map from '../../components/MapComponent/Map';
 import { Box } from '@chakra-ui/react';
-// import MapForm from '../../components/MapComponent/MapForm';
-// import OrderModal from '../../components/Modals/OrderModal';
-// import MapOrderModal from '../../components/Modals/MapOrderModal';
+
 
 export default function HomePage({ user }) {
-  // const [coordinates, setCoordinates] = useState();
   const [sortOrderForDelivery, setSortOrderForDelivery] = useState();
   const [orderInDelivery, setOrderInDelivery] = useState();
 
@@ -20,13 +17,14 @@ export default function HomePage({ user }) {
       setSortOrderForDelivery(sortOrder);
     });
   }, []);
-
+  console.log(sortOrderForDelivery);
   return (
     <Box m='0 auto' w={'700px'} h={'600px'}>
       <Map
         setOrderInDelivery={setOrderInDelivery}
         user={user}
         sortOrderForDelivery={sortOrderForDelivery}
+        setSortOrderForDelivery={setSortOrderForDelivery}
       />
       {/* <MapOrderModal isOpen={isOpen} onClose={onClose} /> */}
     </Box>

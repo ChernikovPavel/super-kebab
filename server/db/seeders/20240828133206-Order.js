@@ -49,7 +49,16 @@ module.exports = {
         status: 'delivery',
         coordinates: [59.71980365548465, 30.39957008113096],
       },
-    )
+      {
+        old_order_price: 1200,
+        new_order_price: 600,
+        discount: 50,
+        user_id: 1,
+        delivery_address: 'г. Пушкина',
+        status: 'available',
+        coordinates: [59.71980365548464, 30.39957008113097],
+      }
+    );
     await queryInterface.bulkInsert(
       'Orders',
       [
@@ -79,6 +88,15 @@ module.exports = {
           delivery_address: 'г. Пушкина',
           status: 'delivery',
           coordinates: [59.71980365548465, 30.39957008113096],
+        },
+        {
+          old_order_price: 1200,
+          new_order_price: 600,
+          discount: 50,
+          user_id: 1,
+          delivery_address: 'г. Пушкина',
+          status: 'available',
+          coordinates: [59.71980365548464, 30.39957008113097],
         },
       ],
       {}

@@ -48,20 +48,14 @@ function Map({
       script.src =
         'https://api-maps.yandex.ru/2.1.78/?apikey=24c18903-4f64-4649-87e4-d2621aa227b9&lang=ru_RU';
       script.async = true;
-
       document.body.appendChild(script);
       script.onload = () => {
         ymaps.ready(init);
         function init() {
           var myMap = new ymaps.Map(
             'map',
-            {
-              center: [59.70257936760503, 30.3656016400904],
-              zoom: 10,
-            },
-            {
-              searchControlProvider: 'yandex#search',
-            }
+            { center: [59.70257936760503, 30.3656016400904], zoom: 10 },
+            { searchControlProvider: 'yandex#search' }
           );
 
           if (
@@ -71,32 +65,24 @@ function Map({
             sortOrderForDelivery.forEach((order) => {
               const { id, coordinates, new_order_price } = order;
 
-              const placemark = new ymaps.Placemark(
-                coordinates,
-
-                {
-                  preset: 'islands#governmentCircleIcon',
-                  iconColor: 'red',
-                }
-              );
+              const placemark = new ymaps.Placemark(coordinates, {
+                preset: 'islands#governmentCircleIcon',
+                iconColor: 'red',
+              });
               if (user) {
                 placemark.events.add('click', () => {
                   setSelectedOrder(order);
                   onOpen();
                 });
               }
-
               myMap.geoObjects.add(placemark);
             });
           }
         }
       };
-
       // Удаляем скрипт при размонтировании компонента
       return () => {
         document.body.removeChild(script);
-
-        document.querySelector('.ymaps-2-1-79-map');
       };
     }
   }, [sortOrderForDelivery]);
@@ -115,7 +101,10 @@ function Map({
       })
       .then((res) => {
         setSelectedOrder((prev) => ({ ...prev, status: 'delivery' }));
-        setOrderInDelivery((prev) => [...prev, selectedOrder]);
+        const changeState = sortOrderForDelivery.filter(
+          (el) => el.id !== selectedOrder.id
+        );
+        setSortOrderForDelivery(changeState);
       })
       .catch((er) => console.log(er));
     onClose();

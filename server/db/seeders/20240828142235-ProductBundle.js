@@ -53,7 +53,19 @@ module.exports = {
         },
         {
           product_id: 1,
-          order_id: 3,
+          order_id: 4,
+        },
+        {
+          product_id: 4,
+          order_id: 4,
+        },
+        {
+          product_id: 4,
+          order_id: 4,
+        },
+        {
+          product_id: 1,
+          order_id: 4,
         },
       ],
       {}
