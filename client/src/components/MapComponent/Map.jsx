@@ -5,10 +5,11 @@ import { useParams } from 'react-router-dom';
 function Map({ remuveMap, orderInDelivery }) {
   const [isMap, setIsMap] = useState(false);
   const { id } = useParams();
+  const [geo, setGeo] = useState();
   // const [coordinates, setCoordinates] = useState();
-  // const coordinatesToNumber = (coordinates) =>
-  //   coordinates?.map((el) => Number(el));
-  // console.log(orderInDelivery.coordinates);
+  const coordinatesToNumber = (coordinates) =>
+    coordinates?.map((el) => Number(el));
+  console.log(orderInDelivery);
 
   useEffect(() => {
     // setCoordinates(coordinatesToNumber());
@@ -30,40 +31,71 @@ function Map({ remuveMap, orderInDelivery }) {
       script.onload = () => {
         ymaps.ready(init);
         function init() {
+          var map;
+          ymaps.geolocation.get().then(function (res) {
+            setGeo(res.geoObjects.position);
+            // console.log(res.geoObjects.position);
+          });
+
           var myMap = new ymaps.Map(
-            'map',
-            {
-              center: [55.76, 37.64],
-              zoom: 10,
-            },
-            {
-              searchControlProvider: 'yandex#search',
-            }
-          );
-          // Создаем геообъект с типом геометрии "Точка".
-          var myPlacemark = new ymaps.Placemark(
-            [55.8265, 37.487208],
-            {},
-            {
-              iconLayout: 'default#image',
-              iconImageHref:
-                'https://allopizza.su/storage/products/August2024/z1PG2Y1VLTqnytzKT27A.webp',
-              iconImageSize: [40, 42],
-              iconImageOffset: [-3, -42],
-            }
-          );
-          myMap.geoObjects.add(myPlacemark).add(
-            new ymaps.Placemark(
-              [55.826479, 37.487208],
+              'map',
               {
-                balloonContent: 'цвет <strong>фэйсбука</strong>',
+                center: [59.70257936760503, 30.3656016400904],
+                zoom: 10,
               },
               {
-                preset: 'islands#governmentCircleIcon',
-                iconColor: 'red',
+                searchControlProvider: 'yandex#search',
               }
-            )
-          );
+            ),
+            collection = new ymaps.GeoObjectCollection(null, {
+              preset: 'islands#yellowIcon',
+            }),
+            clinCoordinats = [];
+
+          if (orderInDelivery.length > 0) {
+            for (var i = 0, l = orderInDelivery.length; i < l; i++) {
+              const { coordinates, new_order_price, discount } =
+                orderInDelivery[i];
+              clinCoordinats.push(coordinatesToNumber(coordinates));
+              collection.add(new ymaps.Placemark(clinCoordinats[i]));
+            }
+          }
+
+          if (clinCoordinats?.length > 0) {
+            for (var i = 0, l = clinCoordinats.length; i < l; i++) {
+              console.log(clinCoordinats[i]);
+              collection.add(new ymaps.Placemark(clinCoordinats[i]));
+            }
+          }
+
+          // if (orderInDelivery.length > 0) {
+          //   orderInDelivery?.forEach((order) => {
+          //     const { coordinates, new_order_price, discount } = order;
+          //     console.log(coordinatesToNumber(coordinates));
+          //     collection.add(
+          //       new ymaps.Placemark(coordinatesToNumber(coordinates))
+          //     );
+          //   });
+          // }
+          myMap.geoObjects?.add(collection);
+
+          // const collection = new ymaps.GeoObjectCollection(null, {
+          //   preset: 'islands#governmentCircleIcon',
+          //   iconColor: 'red',
+          // });
+
+          //   myMap.geoObjects.add(collection).add(
+          //     new ymaps.Placemark(
+          //       [55.826479, 37.487208],
+          //       {
+          //         balloonContent: 'цвет <strong>фэйсбука</strong>',
+          //       },
+          //       {
+          //         preset: 'islands#governmentCircleIcon',
+          //         iconColor: 'red',
+          //       }
+          //     )
+          //   );
         }
       };
       // Удаляем скрипт при размонтировании компонента
