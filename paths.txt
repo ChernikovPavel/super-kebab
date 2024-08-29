@@ -8,6 +8,7 @@ http://localhost:3100/          BASE_URL
         tokens/
             refresh             GET
         order/                  GET, PUT
-
+            user/:id            GET
+            /withuser/:id       GET
         ProfileSettingsPage/
             :id                 GET, PUT
