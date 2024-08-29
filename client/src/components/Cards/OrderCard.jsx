@@ -23,15 +23,15 @@ const mock = {
 
 export default function OrderCard({element, roundedButton}) {
 
-
-console.log(element)
+console.log('66666',element.Products[0].photo)
+console.log('77777',element.Products[0].photo)
   return (
     <Card width="20em" margin='2em'>
       <Stack divider={<StackDivider style={{margin:'0'}}/>} spacing="4">
         <Box>
           <CardBody>
             <Image
-              src={element.Products[0].photo}
+              src={element?.Products[0].photo}
               width="100%"
               margin="0 auto 1em auto"
               rounded="8px"

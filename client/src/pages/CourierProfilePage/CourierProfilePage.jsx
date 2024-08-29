@@ -17,6 +17,7 @@ import styles from './CourierProfilePage.module.css';
 import axiosInstance from '../../tools/axiosInstance';
 import { Heading } from '@chakra-ui/react';
 import OrderCard from '../../components/Cards/OrderCard';
+import CourierCard from '../../components/Cards/CourierCard';
 
 export default function CourierProfilePage({user}) {
   const [orders, changeOrders] = useState([]);
@@ -25,7 +26,8 @@ console.log(user);
   useEffect(() => {
     axiosInstance.get('api/order/').then((res) => changeOrders(res.data));
   }, []);
-
+  console.log('1',user.id);
+  console.log('2',orders[0]);
 return (
 
 <div className={styles.wrapper}>  
@@ -33,9 +35,12 @@ return (
 Личный кабинет курьера
 </Heading> <br/><br/>
 <Flex>
-      {orders.map((el) => (
-        <OrderCard key={el.id} element={el}></OrderCard>
-      ))}
+      {orders.map((el) => {
+        console.log('12134',el);
+        
+       return <CourierCard key={el.id} element={el} changeOrders={changeOrders}></CourierCard>
+      }
+      )}
     </Flex>    
   </div>
 );
