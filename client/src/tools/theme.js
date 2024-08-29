@@ -4,23 +4,23 @@ const theme = extendTheme({
   styles: {
     global: {
       body: {
-        bg: '#1e1f23',
-        color: '#f8f9fb',
+        bg: '#f8f9fb',
+        color: '#1e1f23',
       },
       a: {
-        color: '#f8f9fb',
+        color: '#1e1f23',
         _hover: {
           textDecoration: 'underline',
         },
       },
       h1: {
-        color: '#f8f9fb',
+        color: '#1e1f23',
       },
       h2: {
-        color: '#f8f9fb',
+        color: '#1e1f23',
       },
       p: {
-        color: '#f8f9fb',
+        color: '#1e1f23',
       },
     },
   },
