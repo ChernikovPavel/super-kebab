@@ -20,7 +20,6 @@ import OrderCard from '../../components/Cards/OrderCard';
 
 export default function CourierProfilePage({user}) {
   const [orders, changeOrders] = useState([]);
-console.log(user);
 
   useEffect(() => {
     axiosInstance.get('api/order/').then((res) => changeOrders(res.data));

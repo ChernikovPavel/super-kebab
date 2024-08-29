@@ -69,7 +69,6 @@ router.get('/user/:id', async (req, res) => {
       ],
     });
     res.json(carts);
-    console.dir(carts.dataValues.Order, { depth: null });
   } catch (error) {
     console.log(error);
     res.sendStatus(500);

@@ -16,7 +16,6 @@ export default function ProfileSettingsPage({user}) {
         const res = await axiosInstance.get(
           `${VITE_API}/ProfileSettingsPage/${user?.id}`
         );
-        console.log('res', res);
         
         if (res.status === 200) {
           setUsername({ ...username, oldUsername: res.data.username });

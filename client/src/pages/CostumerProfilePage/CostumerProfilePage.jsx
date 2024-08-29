@@ -22,9 +22,8 @@ export default function CostumerProfilePage({user}) {
   const [orders, changeOrders] = useState([]);
   
   useEffect(() => {
-    axiosInstance.get('api/order/user/' + user.id).then((res) => {console.log('res.data > ',res.data); changeOrders(res.data.map(el => el.Order))});
+    axiosInstance.get('api/order/user/' + user.id).then((res) => {changeOrders(res.data.map(el => el.Order))});
   }, []);
-  console.log('после useeffect',orders)
   return (
     <div className={styles.wrapper}>
       <Heading as="h3" size="xl">
