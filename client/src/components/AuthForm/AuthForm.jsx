@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import styles from './AuthForm.module.css';
-import { Input, Button } from '@chakra-ui/react';
+import { Input, Button, Select } from '@chakra-ui/react';
 import axiosInstance, { setAccessToken } from '../../tools/axiosInstance';
 import { useNavigate } from 'react-router-dom';
+import Modal from 'react-modal';
+Modal.setAppElement('#root');
 
 export default function AuthForm({ title, type = "signin", setUser }) {
   const [inputs, setInputs] = useState({});
@@ -15,6 +17,8 @@ export default function AuthForm({ title, type = "signin", setUser }) {
   const roleChangeHandler = (e) => {
     setRole(e.target.value);
   };
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState("");
   const submitHandler = async (e) => {
@@ -26,8 +30,11 @@ export default function AuthForm({ title, type = "signin", setUser }) {
       );
       setUser(response.data.user);
       setAccessToken(response.data.accessToken);
-
-      navigate("/");
+      if (role === "courier") {
+        setIsModalOpen(true); 
+      } else {
+      navigate("/");}
+      
     } catch (error) {
       if (error.response) {
         if (error.response.status === 409) {
@@ -45,9 +52,11 @@ export default function AuthForm({ title, type = "signin", setUser }) {
   };
 
   return (
+    <>
     <form onSubmit={submitHandler} className={styles.wrapper}>
       <h3 className={styles.head}>{title}</h3>
       {errorMessage && <div className={styles.error}>{errorMessage}</div>}
+      
       <div className={styles.inputs}>
         {type === "signin" && (
           <>
@@ -119,5 +128,22 @@ export default function AuthForm({ title, type = "signin", setUser }) {
         )}
       </div>
     </form>
+    
+    <Modal
+      isOpen={isModalOpen}
+      onRequestClose={() => setIsModalOpen(false)}
+      contentLabel="Уведомление"
+    >
+      <h2>Успешная регистрация</h2>
+      <p>Сообщение админу о регистрации нового курьера отправлено.</p>
+      <Button
+        onClick={() => {
+          setIsModalOpen(false);
+          // navigate("/"); 
+        }}
+      >
+        OK
+      </Button>
+    </Modal></>
   );
 }
