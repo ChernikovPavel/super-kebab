@@ -33,8 +33,7 @@ export default function CostumerProfilePage({user}) {
       <br />
       <Flex>
         {orders.map((el) => {
-          console.log('в мапе',el)
-          return <OrderCard key={el.id} element={el} user={user}></OrderCard>
+          return <OrderCard key={el.id} element={el} user={user} type='userLK'></OrderCard>
         })}
       </Flex>
     </div>

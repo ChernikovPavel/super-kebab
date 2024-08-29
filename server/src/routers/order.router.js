@@ -46,7 +46,7 @@ router.get('/', async (req, res) => {
 router.put('/', verifyAccessToken, (req, res) => {
   try {
     const { id, status } = req.body;
-    console.log({ id, status });
+    console.log('dddddd',{ id, status });
   } catch (error) {
     console.log(error);
   }
