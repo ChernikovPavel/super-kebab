@@ -1,25 +1,25 @@
 'use strict';
+const {Order, User} = require('../models')
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
+    const arr = []
+    const orders = await Order.findAll({attributes: ['id']})
+    const users = await User.findAll({attributes: ['id']})
+    const max = Math.min(users.length, orders.length);
+    
+    for(let i = 0; i < 42; i++){
+      arr.push({
+        user_id: users[Math.floor(Math.random() * users.length)].dataValues.id,
+        order_id: orders[Math.floor(Math.random() * orders.length)].dataValues.id
+      })
+    }
+
+    await queryInterface.bulkInsert('Carts', arr, {})
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    await queryInterface.bulkDelete('Carts', null, {});
   }
 };

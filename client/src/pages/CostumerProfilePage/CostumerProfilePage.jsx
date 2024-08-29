@@ -10,6 +10,8 @@ import {
     ModalOverlay,
     Text,
     useDisclosure,
+    Wrap,
+    WrapItem,
   } from '@chakra-ui/react';
   import React, { useEffect, useState } from 'react';
   import styles from './CostumerProfilePage.module.css'
@@ -31,11 +33,11 @@ export default function CostumerProfilePage({user}) {
       </Heading>
       <br />
       <br />
-      <Flex>
+      <Wrap>
         {orders.map((el) => {
-          return <OrderCard key={el.id} element={el} user={user} type='userLK'></OrderCard>
+          return (<WrapItem key={el.id}><OrderCard  element={el} user={user} type='userLK'></OrderCard></WrapItem>)
         })}
-      </Flex>
+      </Wrap>
     </div>
   );
 }
