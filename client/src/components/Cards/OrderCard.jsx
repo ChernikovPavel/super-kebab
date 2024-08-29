@@ -11,6 +11,7 @@ import {
   StackDivider,
   Text,
   UnorderedList,
+  theme,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import OrderModal from '../Modals/OrderModal';

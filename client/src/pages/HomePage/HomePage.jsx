@@ -20,7 +20,7 @@ export default function HomePage({ user }) {
   }, []);
 
   return (
-    <Box m='0 auto' w={'600px'} h={'600px'}>
+    <Box m='0 auto' w={'700px'} h={'600px'}>
       <Map orderInDelivery={orderInDelivery} />
     </Box>
   );

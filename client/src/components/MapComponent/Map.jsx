@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './MapComponent.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import OrderCard from '../Cards/OrderCard';
 
 function Map({ remuveMap, orderInDelivery }) {
   const [isMap, setIsMap] = useState(false);
   const { id } = useParams();
-  const [geo, setGeo] = useState();
-  // const [coordinates, setCoordinates] = useState();
+  // const [geo, setGeo] = useState();
+  const navigate = useNavigate();
   const coordinatesToNumber = (coordinates) =>
     coordinates?.map((el) => Number(el));
 
@@ -30,86 +31,51 @@ function Map({ remuveMap, orderInDelivery }) {
       script.onload = () => {
         ymaps.ready(init);
         function init() {
-          var map;
-          ymaps.geolocation.get().then(function (res) {
-            setGeo(res.geoObjects.position);
-            // console.log(res.geoObjects.position);
-          });
-
           var myMap = new ymaps.Map(
-              'map',
-              {
-                center: [59.70257936760503, 30.3656016400904],
-                zoom: 10,
-              },
-              {
-                searchControlProvider: 'yandex#search',
-              }
-            ),
-            collection = new ymaps.GeoObjectCollection(null, {
-              preset: 'islands#yellowIcon',
-            }),
-            clinCoordinats = [];
-
-          if (orderInDelivery.length > 0) {
-            for (var i = 0, l = orderInDelivery.length; i < l; i++) {
-              const { coordinates, new_order_price, discount } =
-                orderInDelivery[i];
-              clinCoordinats.push(coordinatesToNumber(coordinates));
-              collection.add(new ymaps.Placemark(clinCoordinats[i]));
+            'map',
+            {
+              center: [59.70257936760503, 30.3656016400904],
+              zoom: 10,
+            },
+            {
+              searchControlProvider: 'yandex#search',
             }
+          );
+
+          if (Array.isArray(orderInDelivery) && orderInDelivery.length > 0) {
+            orderInDelivery.forEach((order) => {
+              const { id, coordinates, new_order_price } = order;
+
+              const placemark = new ymaps.Placemark(
+                coordinates,
+                {
+                  balloonContent:
+                    `Этот заказ может быть Вашб всего за:' ${new_order_price}` ||
+                    'Информация о заказе', // Измените на нужное значение
+                },
+                {
+                  preset: 'islands#governmentCircleIcon',
+                  iconColor: 'red',
+                }
+              );
+
+              placemark.events.add('click', () => {
+                navigate(`/order/${id}`); // Переход на страницу
+              });
+              myMap.geoObjects.add(placemark);
+            });
           }
-
-          if (clinCoordinats?.length > 0) {
-            for (var i = 0, l = clinCoordinats.length; i < l; i++) {
-              collection.add(new ymaps.Placemark(clinCoordinats[i]));
-            }
-          }
-
-          // if (orderInDelivery.length > 0) {
-          //   orderInDelivery?.forEach((order) => {
-          //     const { coordinates, new_order_price, discount } = order;
-          //     console.log(coordinatesToNumber(coordinates));
-          //     collection.add(
-          //       new ymaps.Placemark(coordinatesToNumber(coordinates))
-          //     );
-          //   });
-          // }
-          myMap.geoObjects?.add(collection);
-
-          // const collection = new ymaps.GeoObjectCollection(null, {
-          //   preset: 'islands#governmentCircleIcon',
-          //   iconColor: 'red',
-          // });
-
-          //   myMap.geoObjects.add(collection).add(
-          //     new ymaps.Placemark(
-          //       [55.826479, 37.487208],
-          //       {
-          //         balloonContent: 'цвет <strong>фэйсбука</strong>',
-          //       },
-          //       {
-          //         preset: 'islands#governmentCircleIcon',
-          //         iconColor: 'red',
-          //       }
-          //     )
-          //   );
         }
       };
+
       // Удаляем скрипт при размонтировании компонента
       return () => {
         document.body.removeChild(script);
       };
     }
-  }, [id]);
+  }, [orderInDelivery]);
 
-  return (
-    <div
-      id='map'
-      className='map1'
-      // style={{ height: '400px' }}
-    ></div>
-  );
+  return <div id='map' className='map1'></div>;
 }
 
 export default Map;
