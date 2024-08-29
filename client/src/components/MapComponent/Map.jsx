@@ -1,20 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import './MapComponent.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import OrderCard from '../Cards/OrderCard';
 
-function Map({ remuveMap, orderInDelivery }) {
+import {
+  Image,
+  Modal,
+  Button,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  useDisclosure,
+  Flex,
+} from '@chakra-ui/react';
+import axiosInstance from '../../tools/axiosInstance';
+
+function Map({
+  orderInDelivery,
+  setOrderInDelivery,
+  remuveMap,
+  sortOrderForDelivery,
+  user,
+  setSortOrderForDelivery,
+}) {
   const [isMap, setIsMap] = useState(false);
   const { id } = useParams();
-  const [geo, setGeo] = useState();
-  // const [coordinates, setCoordinates] = useState();
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const coordinatesToNumber = (coordinates) =>
     coordinates?.map((el) => Number(el));
-  console.log(orderInDelivery);
 
   useEffect(() => {
-    // setCoordinates(coordinatesToNumber());
     const findClass = document.querySelector('.ymaps-2-1-79-map');
-
     if (!remuveMap) {
       if (findClass) document.querySelector('#map').removeChild(findClass);
     }
@@ -31,86 +53,133 @@ function Map({ remuveMap, orderInDelivery }) {
       script.onload = () => {
         ymaps.ready(init);
         function init() {
-          var map;
-          ymaps.geolocation.get().then(function (res) {
-            setGeo(res.geoObjects.position);
-            // console.log(res.geoObjects.position);
-          });
-
           var myMap = new ymaps.Map(
-              'map',
-              {
-                center: [59.70257936760503, 30.3656016400904],
-                zoom: 10,
-              },
-              {
-                searchControlProvider: 'yandex#search',
+            'map',
+            {
+              center: [59.70257936760503, 30.3656016400904],
+              zoom: 10,
+            },
+            {
+              searchControlProvider: 'yandex#search',
+            }
+          );
+
+          if (
+            Array.isArray(sortOrderForDelivery) &&
+            sortOrderForDelivery.length > 0
+          ) {
+            sortOrderForDelivery.forEach((order) => {
+              const { id, coordinates, new_order_price } = order;
+
+              const placemark = new ymaps.Placemark(
+                coordinates,
+
+                {
+                  preset: 'islands#governmentCircleIcon',
+                  iconColor: 'red',
+                }
+              );
+              if (user) {
+                placemark.events.add('click', () => {
+                  setSelectedOrder(order);
+                  onOpen();
+                });
               }
-            ),
-            collection = new ymaps.GeoObjectCollection(null, {
-              preset: 'islands#yellowIcon',
-            }),
-            clinCoordinats = [];
 
-          if (orderInDelivery.length > 0) {
-            for (var i = 0, l = orderInDelivery.length; i < l; i++) {
-              const { coordinates, new_order_price, discount } =
-                orderInDelivery[i];
-              clinCoordinats.push(coordinatesToNumber(coordinates));
-              collection.add(new ymaps.Placemark(clinCoordinats[i]));
-            }
+              myMap.geoObjects.add(placemark);
+            });
           }
-
-          if (clinCoordinats?.length > 0) {
-            for (var i = 0, l = clinCoordinats.length; i < l; i++) {
-              console.log(clinCoordinats[i]);
-              collection.add(new ymaps.Placemark(clinCoordinats[i]));
-            }
-          }
-
-          // if (orderInDelivery.length > 0) {
-          //   orderInDelivery?.forEach((order) => {
-          //     const { coordinates, new_order_price, discount } = order;
-          //     console.log(coordinatesToNumber(coordinates));
-          //     collection.add(
-          //       new ymaps.Placemark(coordinatesToNumber(coordinates))
-          //     );
-          //   });
-          // }
-          myMap.geoObjects?.add(collection);
-
-          // const collection = new ymaps.GeoObjectCollection(null, {
-          //   preset: 'islands#governmentCircleIcon',
-          //   iconColor: 'red',
-          // });
-
-          //   myMap.geoObjects.add(collection).add(
-          //     new ymaps.Placemark(
-          //       [55.826479, 37.487208],
-          //       {
-          //         balloonContent: 'цвет <strong>фэйсбука</strong>',
-          //       },
-          //       {
-          //         preset: 'islands#governmentCircleIcon',
-          //         iconColor: 'red',
-          //       }
-          //     )
-          //   );
         }
       };
+
       // Удаляем скрипт при размонтировании компонента
       return () => {
         document.body.removeChild(script);
+
+        document.querySelector('.ymaps-2-1-79-map');
       };
     }
-  }, [id]);
+  }, [sortOrderForDelivery]);
+
+  const chengeOrdersToCart = {
+    order_id: id,
+    user_id: user.id,
+  };
+  console.log(selectedOrder);
+
+  const addOrderOnDelivery = () => {
+    axiosInstance
+      .put(`${import.meta.env.VITE_API}/order/${selectedOrder.id}`, {
+        id: selectedOrder.id,
+        status: 'delivery',
+      })
+      .then((res) => {
+        setSelectedOrder((prev) => ({ ...prev, status: 'delivery' }));
+        setOrderInDelivery((prev) => [...prev, selectedOrder]);
+      })
+      .catch((er) => console.log(er));
+    onClose();
+  };
+  console.log(selectedOrder);
+  console.log(orderInDelivery);
 
   return (
-    <div
-      id='map'
-      className='map1'
-      // style={{ height: '400px' }}
-    ></div>
+    <>
+      <div id='map' className='map1'></div>
+      <Modal isOpen={isOpen} isCentered onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Информация о заказе</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {selectedOrder ? (
+              <>
+                <Flex>
+                  {selectedOrder.Products?.map((el) => (
+                    <Image
+                      key={el.id}
+                      objectFit='cover'
+                      w='120px'
+                      h='120px'
+                      maxW={{ base: '100px', sm: '200px' }}
+                      src={el.photo}
+                      alt='Caffe Latte'
+                    />
+                  ))}
+                </Flex>
+
+                <Text>
+                  Заказ ID: {selectedOrder.id}
+                  <br />
+                  Цена: {selectedOrder.new_order_price}
+                </Text>
+              </>
+            ) : (
+              <Text>Нет информации о заказе</Text>
+            )}
+          </ModalBody>
+          {user.email && (
+            <ModalFooter>
+              <Button
+                colorScheme='gray'
+                variant='ghost'
+                mr={3}
+                onClick={onClose}
+              >
+                Закрыть
+              </Button>
+              <Button
+                colorScheme='orange'
+                variant='ghost'
+                onClick={addOrderOnDelivery}
+              >
+                Забираю!
+              </Button>
+            </ModalFooter>
+          )}
+        </ModalContent>
+      </Modal>
+    </>
   );
 }
 

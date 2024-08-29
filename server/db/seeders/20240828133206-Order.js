@@ -69,7 +69,16 @@ module.exports = {
           user_id: 1,
           delivery_address: 'г. Пушкина',
           status: 'available',
-          coordinates: [59.025793676209, 30.3656016409],
+          coordinates: [59.70942453703193, 30.412777278320295],
+        },
+        {
+          old_order_price: 2200,
+          new_order_price: 1100,
+          discount: 50,
+          user_id: 1,
+          delivery_address: 'г. Пушкина',
+          status: 'delivery',
+          coordinates: [59.71980365548465, 30.39957008113096],
         },
       ],
       {}
