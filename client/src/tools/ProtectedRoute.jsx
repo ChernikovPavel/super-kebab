@@ -1,9 +1,18 @@
-import { Navigate } from "react-router-dom";
 
-export default function RestrictedRoute({ children, authUser, isLogRequired/*при true требует быть авторизирвоанным, при false требует быть неавторизированным*/, redirectTo='/' }) {
-  if (Boolean(authUser) == Boolean(isLogRequired)) {
-    return children
+
+// import { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
+// import { Alert, AlertIcon, Button } from "@chakra-ui/react";
+
+export default function ProtectedRoute({ children, authUser, isLogRequired, redirectTo='/', showAlert, setShowAlert }) {
+ 
+
+  
+
+  if (Boolean(authUser) === Boolean(isLogRequired)) {
+    return children;
+    
   } else {
-    return <Navigate to={redirectTo}></Navigate>;
+    return <Navigate to={redirectTo} />;
   }
 }

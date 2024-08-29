@@ -5,7 +5,6 @@ const generateToken = require("../../utils/generateToken");
 const cookieConfig = require("../../configs/cookieConfig");
 const nodemailer = require("nodemailer");
 
-console.log("---------------", process.env.EMAIL_USER, process.env.EMAIL_PASS);
 
 const transporter = nodemailer.createTransport({
   host: "smtp.mail.ru",
