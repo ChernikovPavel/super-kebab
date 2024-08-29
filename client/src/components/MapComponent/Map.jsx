@@ -9,7 +9,6 @@ function Map({ remuveMap, orderInDelivery }) {
   // const [coordinates, setCoordinates] = useState();
   const coordinatesToNumber = (coordinates) =>
     coordinates?.map((el) => Number(el));
-  console.log(orderInDelivery);
 
   useEffect(() => {
     // setCoordinates(coordinatesToNumber());
@@ -63,7 +62,6 @@ function Map({ remuveMap, orderInDelivery }) {
 
           if (clinCoordinats?.length > 0) {
             for (var i = 0, l = clinCoordinats.length; i < l; i++) {
-              console.log(clinCoordinats[i]);
               collection.add(new ymaps.Placemark(clinCoordinats[i]));
             }
           }

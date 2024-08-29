@@ -14,7 +14,6 @@ export default function HomePage({ user }) {
   //   coordinates?.map((el) => Number(el));
   useEffect(() => {
     axiosInstance.get(`${import.meta.env.VITE_API}/order`).then((res) => {
-      console.log('setOrderInDelivery', res);
       setOrderInDelivery(res.data);
       // setCoordinates(coordinatesToNumber);
     });

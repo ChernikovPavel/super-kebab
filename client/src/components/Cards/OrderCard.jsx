@@ -21,10 +21,9 @@ const mock = {
 };
 
 
-export default function OrderCard({element, roundedButton}) {
+export default function OrderCard({element, roundedButton, user}) {
 
 
-console.log(element)
   return (
     <Card width="20em" margin='2em'>
       <Stack divider={<StackDivider style={{margin:'0'}}/>} spacing="4">

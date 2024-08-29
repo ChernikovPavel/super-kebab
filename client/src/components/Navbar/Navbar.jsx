@@ -53,6 +53,7 @@ export default function Navbar({ user, setUser }) {
                 <Button colorScheme="orange" onClick={logoutHandler}>Unlog</Button>
                 <NavButton to="/ProfileSettingsPage">LK</NavButton>
                 <NavButton to="/CourierProfilePage">LK</NavButton>
+                <NavButton to="/CustomerProfilePage">LK</NavButton>
               </>
             ) : (
               <>
