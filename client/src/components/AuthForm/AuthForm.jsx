@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './AuthForm.module.css';
 import { Input, Button } from '@chakra-ui/react';
-import axiosInstance, { setAccessToken } from '../../axiosInstance';
+import axiosInstance, { setAccessToken } from '../../tools/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 
 export default function AuthForm({ title, type = 'signin', setUser }) {

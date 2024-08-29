@@ -1,6 +1,6 @@
 import { Button, Input } from "@chakra-ui/react";
 import  { useEffect, useState } from "react";
-import axiosInstance from "../../axiosInstance";
+import axiosInstance from "../../tools/axiosInstance";
 const { VITE_API } = import.meta.env;
 import styles from "./ProfileSettingsPage.module.css";
 
@@ -8,7 +8,6 @@ export default function ProfileSettingsPage({user}) {
   const [username, setUsername] = useState({oldUsername: "", newUsername: ""});
   const [email, setEmail] = useState({ oldEmail: "", newEmail: "" });
   const [password, setPassword] = useState({ oldPassword: "", newPassword: ""});
-console.log(user,'user');
 
   useEffect(() => {
     const fetchUserData = async () => {
