@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import axiosInstance, { setAccessToken } from "./axiosInstance";
 import ProfileSettingsPage from './pages/ProfileSettingsPage/ProfileSettingsPage'
 import ProtectedRoute from "./ProtectedRoute";
+import TestPage from "./pages/TestPage/TestPage";
 function App() {
   const [user, setUser] = useState({});
 
@@ -47,6 +48,12 @@ function App() {
             <ProtectedRoute authUser={user.username} redirectTo={"/"}>
               <SignupPage setUser={setUser} />
             </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/test",
+          element: (
+              <TestPage setUser={setUser} />
           ),
         },
       ],

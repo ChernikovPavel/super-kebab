@@ -1,0 +1,13 @@
+http://localhost:3100/          BASE_URL
+    api/
+        auth/
+            signup              POST      - req.body = { username, email, password }
+            signin              POST      - req.body = { email, password }
+            logout              GET
+
+        tokens/
+            refresh             GET
+        order/                  GET, PUT
+
+        ProfileSettingsPage/
+            :id                 GET, PUT

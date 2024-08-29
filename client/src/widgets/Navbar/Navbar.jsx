@@ -33,7 +33,6 @@ export default function Navbar({ user, setUser }) {
     <>
       <Box
         className="navbar"
-        bg="gray.300"
         height="3.75em"
         padding=".6em"
         rounded="sm"
