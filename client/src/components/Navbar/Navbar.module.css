@@ -18,3 +18,15 @@
   display: flex;
   justify-content: space-between;
 }
+
+.navbar {
+  background-color: #d3cece;
+  position: fixed;
+  z-index: 2;
+  width: 100vw;
+  box-shadow: 0 0 15px 0.1em rgb(77, 77, 77);
+}
+
+.btn-navbar {
+  margin: auto .5em
+}

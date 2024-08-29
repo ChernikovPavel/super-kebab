@@ -1,14 +1,14 @@
-import "./App.css";
-import Root from "./Root";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./pages/HomePage/HomePage";
-import SigninPage from "./pages/SigninPage/SigninPage";
-import SignupPage from "./pages/SignupPage/SignupPage";
-import { useState, useEffect } from "react";
-import axiosInstance, { setAccessToken } from "./axiosInstance";
-import ProfileSettingsPage from './pages/ProfileSettingsPage/ProfileSettingsPage'
-import ProtectedRoute from "./ProtectedRoute";
-
+import './App.css';
+import Root from './Root';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import HomePage from './pages/HomePage/HomePage';
+import SigninPage from './pages/SigninPage/SigninPage';
+import SignupPage from './pages/SignupPage/SignupPage';
+import { useState, useEffect } from 'react';
+import axiosInstance, { setAccessToken } from './tools/axiosInstance';
+import ProfileSettingsPage from './pages/ProfileSettingsPage/ProfileSettingsPage';
+import ProtectedRoute from './tools/ProtectedRoute';
+import TestPage from './pages/TestPage/TestPage';
 function App() {
   const [user, setUser] = useState({});
 
@@ -20,35 +20,43 @@ function App() {
         setAccessToken(res.data.accessToken);
       });
   }, []);
-
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: '/',
       element: <Root user={user} setUser={setUser} />,
       children: [
         {
-          path: "/",
+          path: '/',
           element: <HomePage user={user} />,
         },
         {
-          path: "/ProfileSettingsPage",
-          element: < ProfileSettingsPage user={user}/>,
+          path: '/ProfileSettingsPage',
+
+          element: (
+            <ProtectedRoute authUser={user.username} redirectTo={'/'} isLogRequired>
+              <ProfileSettingsPage user={user} />,
+            </ProtectedRoute>
+          ),
         },
         {
-          path: "/signin",
+          path: '/signin',
           element: (
-            <ProtectedRoute authUser={user.username} redirectTo={"/"}>
+            <ProtectedRoute authUser={user.username} redirectTo={'/'}>
               <SigninPage setUser={setUser} />
             </ProtectedRoute>
           ),
         },
         {
-          path: "/signup",
+          path: '/signup',
           element: (
-            <ProtectedRoute authUser={user.username} redirectTo={"/"}>
+            <ProtectedRoute authUser={user.username} redirectTo={'/'}>
               <SignupPage setUser={setUser} />
             </ProtectedRoute>
           ),
+        },
+        {
+          path: '/test',
+          element: <TestPage setUser={setUser} />,
         },
       ],
     },
