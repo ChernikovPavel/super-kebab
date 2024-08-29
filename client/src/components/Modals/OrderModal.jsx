@@ -17,6 +17,8 @@ export default function OrderModal({
   children,
   header = 'заказ',
   element, // element из arr.map((element) => {})
+  width = 'auto',
+  rounded = '1'
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -30,7 +32,9 @@ export default function OrderModal({
 
   return (
     <>
-      <Button onClick={onOpen}>Подробнее</Button>
+      <Button width={width} onClick={onOpen} rounded={rounded}>
+        Подробнее
+      </Button>
       <Modal isOpen={isOpen} isCentered onClose={onClose}>
         <ModalOverlay />
 
@@ -47,7 +51,6 @@ export default function OrderModal({
             </Button>
           </ModalFooter>
         </ModalContent>
-        
       </Modal>
     </>
   );

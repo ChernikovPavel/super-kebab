@@ -1,4 +1,5 @@
 import {
+  chakra,
   Box,
   Card,
   CardBody,
@@ -20,32 +21,36 @@ const mock = {
 };
 
 
-export default function OrderCard({element}) {
+export default function OrderCard({element, roundedButton}) {
 
 
-
+console.log(element)
   return (
-    <Card width="15em">
-      <Stack divider={<StackDivider className='curt' style={{margin:'0'}}/>} spacing="4">
+    <Card width="20em" margin='2em'>
+      <Stack divider={<StackDivider style={{margin:'0'}}/>} spacing="4">
         <Box>
           <CardBody>
             <Image
-              src={mock.src}
+              src={element.Products[0].photo}
               width="100%"
               margin="0 auto 1em auto"
               rounded="8px"
             />
-            <Text marginBottom="10px">Заказ такой то</Text>
+            <Text marginBottom="10px" >Заказ №{element.id}</Text>
+            <Text align='left'>
+            <Text  fontWeight='500'> Общая стоимость: </Text>
+            <chakra.span align='left' textColor='red' fontWeight='700' style={{textDecoration: 'line-through 3px'}}>{element.new_order_price}</chakra.span>
+            <chakra.span fontWeight='700' textColor='green'> {element.new_order_price}</chakra.span>
+            <chakra.span  fontWeight='500'> USD </chakra.span>
+            </Text>
             <UnorderedList>
-              <ListItem>Lorem ipsum dolor sit</ListItem>
-              <ListItem>Consectetur adipiscing</ListItem>
-              <ListItem>Integer molestie lorem at</ListItem>
-              <ListItem>Facilisis in pretium nisl</ListItem>
+              {element.Products.map((el) => (<ListItem textAlign='left'>{el.product_name}</ListItem>))}
             </UnorderedList>
           </CardBody>
         </Box>
-
-        <OrderModal element={element}></OrderModal>
+        <Box>
+        <OrderModal rounded='0' width='100%' element={element}></OrderModal>
+        </Box>
       </Stack>
     </Card>
   );
