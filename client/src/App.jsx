@@ -32,6 +32,7 @@ function App() {
         },
         {
           path: '/order/:id',
+
           element: <OrderCard user={user} />,
         },
         {

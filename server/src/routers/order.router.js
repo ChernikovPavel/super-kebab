@@ -43,12 +43,16 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.put('/', verifyAccessToken, (req, res) => {
+router.put('/:id', verifyAccessToken, async (req, res) => {
   try {
     const { id, status } = req.body;
     console.log({ id, status });
+    const ubdate = await Order.update({ status }, { where: { id } });
+    console.log('изменения произведены', ubdate);
+    res.sendStatus(200);
   } catch (error) {
     console.log(error);
+    res.sendStatus(400);
   }
 });
 
