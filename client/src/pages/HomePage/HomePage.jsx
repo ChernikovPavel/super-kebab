@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import styles from "./HomePage.module.css";
-import axiosInstance from "../../axiosInstance";
+import axiosInstance from "../../tools/axiosInstance";
 import Map from '../../components/MapComponent/Map';
 import { Box } from '@chakra-ui/react';
 import MapForm from '../../components/MapComponent/MapForm';

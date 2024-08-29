@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './MapComponent.css';
-import axiosInstance from '../../axiosInstance';
+import axiosInstance from '../../tools/axiosInstance';
 import { useLocation } from 'react-router-dom';
 
 function MapForm({

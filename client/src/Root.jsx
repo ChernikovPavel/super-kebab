@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import Navbar from './widgets/Navbar/Navbar';
+import Navbar from './components/Navbar/Navbar';
 
 export default function Root({ user, setUser }) {
   return (

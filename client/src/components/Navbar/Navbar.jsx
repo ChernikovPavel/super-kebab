@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Image } from '@chakra-ui/react';
-import axiosInstance, { setAccessToken } from '../../axiosInstance';
+import axiosInstance, { setAccessToken } from '../../tools/axiosInstance';
 
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 
@@ -26,7 +26,6 @@ export default function Navbar({ user, setUser }) {
       navigate('/');
     }
   };
-  console.log(user);
   const Links = ['Dashboard', 'Projects', 'Team'];
 
   return (
