@@ -33,7 +33,11 @@ function App() {
           path: '/ProfileSettingsPage',
 
           element: (
-            <ProtectedRoute authUser={user.username} redirectTo={'/'} isLogRequired>
+            <ProtectedRoute
+              authUser={user.username}
+              redirectTo={'/'}
+              isLogRequired
+            >
               <ProfileSettingsPage user={user} />,
             </ProtectedRoute>
           ),
@@ -54,7 +58,6 @@ function App() {
             </ProtectedRoute>
           ),
         },
-      
       ],
     },
   ]);
