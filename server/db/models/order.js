@@ -3,7 +3,7 @@ const { Model } = require('sequelize');
 const product = require('./product');
 module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
-    static associate({ User, Cart, ProductBundle }) {
+    static associate({ User, Cart, ProductBundle, Product }) {
       this.belongsToMany(User, {
         through: {
           model: Cart,
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       this.belongsTo(User, { foreignKey: 'user_id', as: 'courier' });
 
-      this.hasMany(ProductBundle, { foreignKey: 'order_id' });
+      this.belongsToMany(Product, { through: {model: ProductBundle}, foreignKey: 'order_id' });
     }
   }
   Order.init(
