@@ -8,7 +8,7 @@ router.use('/auth', authRouter);
 router.use('/tokens', tokenRouter);
 router.use('/order', orderRouter);
 router.use('/ProfileSettingsPage', profilesettingsrouter);
-router.use('/orders', ordersrouter);
+
 
 
 module.exports = router;

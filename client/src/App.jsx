@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import axiosInstance, { setAccessToken } from './tools/axiosInstance';
 import ProfileSettingsPage from './pages/ProfileSettingsPage/ProfileSettingsPage';
 import ProtectedRoute from './tools/ProtectedRoute';
+import CourierProfilePage from './pages/CourierProfilePage/CourierProfilePage';
 
 function App() {
   const [user, setUser] = useState({});
@@ -39,6 +40,19 @@ function App() {
               isLogRequired
             >
               <ProfileSettingsPage user={user} />,
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: '/CourierProfilePage',
+
+          element: (
+            <ProtectedRoute
+              authUser={user.username}
+              redirectTo={'/'}
+              isLogRequired
+            >
+              <CourierProfilePage user={user} />,
             </ProtectedRoute>
           ),
         },
