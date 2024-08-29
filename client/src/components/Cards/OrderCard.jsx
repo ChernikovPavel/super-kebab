@@ -26,7 +26,7 @@ export default function OrderCard({element}) {
 
   return (
     <Card width="15em">
-      <Stack divider={<StackDivider />} spacing="4">
+      <Stack divider={<StackDivider className='curt' style={{margin:'0'}}/>} spacing="4">
         <Box>
           <CardBody>
             <Image
