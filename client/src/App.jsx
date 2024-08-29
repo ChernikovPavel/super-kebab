@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import axiosInstance, { setAccessToken } from './tools/axiosInstance';
 import ProfileSettingsPage from './pages/ProfileSettingsPage/ProfileSettingsPage';
 import ProtectedRoute from './tools/ProtectedRoute';
+import OrderCard from './components/Cards/OrderCard';
 
 function App() {
   const [user, setUser] = useState({});
@@ -28,6 +29,10 @@ function App() {
         {
           path: '/',
           element: <HomePage user={user} />,
+        },
+        {
+          path: '/order/:id',
+          element: <OrderCard user={user} />,
         },
         {
           path: '/ProfileSettingsPage',

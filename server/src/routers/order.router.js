@@ -76,5 +76,6 @@ router.get('/withuser/:id', async (req, res) => {
     res.sendStatus(500);
   }
 });
+router.get('/:id');
 
 module.exports = router;
