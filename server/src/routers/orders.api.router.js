@@ -29,6 +29,7 @@ router
       discount,
       delivery_address,
       coordinates,
+      status,
     } = req.body;
     const { user } = res.locals;
 
@@ -39,6 +40,7 @@ router
         discount,
         delivery_address,
         coordinates,
+        status,
         userId: user.id,
       });
       res.json(order);
@@ -69,7 +71,8 @@ router
         new_order_price,
         discount,
         delivery_address,
-        coordinates, } = req.body;
+        coordinates, 
+        status} = req.body;
     try {
       const editedOrder = await Order.findByPk(id);
       if (editedOrder) {
@@ -78,6 +81,7 @@ router
           (editedOrder.discount = discount),
           (editedOrder.delivery_address = delivery_address),
           (editedOrder.coordinates = coordinates),
+          (editedOrder.status = status),
           editedOrder.save();
         res.json(editedOrder);
       } else {

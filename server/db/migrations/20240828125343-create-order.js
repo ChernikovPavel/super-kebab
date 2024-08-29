@@ -34,6 +34,9 @@ module.exports = {
       coordinates: {
         type: Sequelize.ARRAY(Sequelize.DECIMAL),
       },
+      status: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

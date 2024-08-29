@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       new_order_price: DataTypes.INTEGER,
       discount: DataTypes.INTEGER,
       user_id: DataTypes.INTEGER,
+      status: DataTypes.STRING,
       delivery_address: DataTypes.STRING,
       coordinates: DataTypes.ARRAY(DataTypes.DECIMAL),
     },
