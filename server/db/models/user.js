@@ -7,8 +7,9 @@ module.exports = (sequelize, DataTypes) => {
         through: {
           model: Cart,
           as: 'customer',
-          foreignKey: 'user_id',
         },
+        foreignKey: 'user_id',
+        as: 'ordersInCart',
       });
       this.hasMany(Order, {
         foreignKey: 'user_id',
@@ -22,6 +23,14 @@ module.exports = (sequelize, DataTypes) => {
       email: DataTypes.STRING,
       password: DataTypes.STRING,
       role: DataTypes.STRING,
+      role: {
+        type: DataTypes.ENUM(['user', 'courier']), 
+        allowNull: false,
+        defaultValue: 'user', 
+      },
+      
+       
+      
       address: DataTypes.STRING,
       phone_number: DataTypes.STRING,
     },

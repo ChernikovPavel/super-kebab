@@ -19,7 +19,9 @@ module.exports = {
         type: Sequelize.STRING,
       },
       role: {
-        type: Sequelize.STRING,
+        type: Sequelize.ENUM('user', 'courier'),
+        allowNull: false,
+        defaultValue: 'user',
       },
       address: {
         type: Sequelize.STRING,

@@ -6,7 +6,7 @@ const cookieConfig = require('../../configs/cookieConfig');
 
 router
   .post('/signup', async (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, email, password, role } = req.body;
 
     try {
       const [user, isCreated] = await User.findOrCreate({
@@ -15,6 +15,7 @@ router
           username,
           email,
           password: await bcrypt.hash(password, 10),
+          role,
         },
       });
 

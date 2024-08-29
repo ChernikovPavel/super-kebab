@@ -1,0 +1,4 @@
+PORT=3100
+DB=postgres://andrey_sh:123@localhost:5432/kebab
+SECRET_ACCESS_TOKEN=yastrikadlyaaccsesstokena
+SECRET_REFRESH_TOKEN=yastrikadlyarefreshtokena
