@@ -36,9 +36,9 @@ console.log('orders', orders)
     <div className={styles.wrapper}>
       <Heading as="h3" size="xl">
         <Text></Text>
-        Личный кабинет покупателя{' '}
+        Личный кабинет покупателя
         <chakra.span fontWeight="900" color="#f37b3f">
-          {' '}
+
           {user.username}
         </chakra.span>
       </Heading>
@@ -52,7 +52,7 @@ console.log('orders', orders)
             </WrapItem>
           );
         })}
-      </Wrap>
+      </Flex>
     </div>
   );
 }

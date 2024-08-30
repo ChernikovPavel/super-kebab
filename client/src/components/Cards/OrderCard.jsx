@@ -62,7 +62,6 @@ export default function OrderCard({ element, roundedButton, user, type='map'}) {
           <OrderModal rounded='0' width='100%' element={element}></OrderModal>
           }
         </Box>
-      </Stack>
     </Card>
   );
 }
