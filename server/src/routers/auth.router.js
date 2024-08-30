@@ -1,11 +1,44 @@
-const router = require('express').Router();
-const { User } = require('../../db/models');
-const bcrypt = require('bcrypt');
-const generateToken = require('../../utils/generateToken');
-const cookieConfig = require('../../configs/cookieConfig');
+const router = require("express").Router();
+const { User } = require("../../db/models");
+const bcrypt = require("bcrypt");
+const generateToken = require("../../utils/generateToken");
+const cookieConfig = require("../../configs/cookieConfig");
+const nodemailer = require("nodemailer");
+
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.mail.ru",
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+async function sendCourierApprovalEmail(courierInfo) {
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: process.env.ADMIN_EMAIL,
+    subject: "Новый запрос на регистрацию курьера",
+    html: `
+      <h1>Новый курьер зарегистрировался</h1>
+      <p>Имя: ${courierInfo.username}</p>
+      <p>Email: ${courierInfo.email}</p>
+      <p>Нажмите на <a href="http://your-domain.com/admin/couriers/${courierInfo.id}">ссылку</a>, чтобы просмотреть детали и подтвердить курьера.</p>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log("Сообщение админу о регистрации нового курьера отправлено");
+  } catch (error) {
+    console.error("Ошибка в отправке email:", error);
+  }
+}
 
 router
-  .post('/signup', async (req, res) => {
+  .post("/signup", async (req, res) => {
     const { username, email, password, role } = req.body;
 
     try {
@@ -20,22 +53,24 @@ router
       });
 
       if (!isCreated) {
-        res.status(400).json({ message: 'User alredy exists' });
+        res.status(400).json({ message: "User alredy exists" });
       } else {
         const plainUser = user.get();
         delete plainUser.password;
-console.log('plainUser',plainUser);
+        console.log("plainUser", plainUser);
 
         const { accessToken, refreshToken } = generateToken({
           user: plainUser,
         });
-console.log('accessToken, refreshToken', accessToken, refreshToken);
+        console.log("accessToken, refreshToken", accessToken, refreshToken);
 
         res
-          .cookie('refreshToken', refreshToken, cookieConfig.refreshToken)
+          .cookie("refreshToken", refreshToken, cookieConfig.refreshToken)
           .json({ user: plainUser, accessToken });
+        if (role === "courier") {
+          await sendCourierApprovalEmail(plainUser);
+        }
       }
-      
     } catch (error) {
       console.error(error);
       res.sendStatus(400);
@@ -43,36 +78,38 @@ console.log('accessToken, refreshToken', accessToken, refreshToken);
 
     res.end();
   })
-  .post('/signin', async (req, res) => {
+  .post("/signin", async (req, res) => {
     const { email, password } = req.body;
 
     if (!(email && password)) {
-      res.status(400).json({ message: 'All fields are required' });
+      res.status(400).json({ message: "All fields are required" });
     }
 
     const user = await User.findOne({ where: { email } });
-    if(user){
+    if (user) {
+      const isCorrectPassword = await bcrypt.compare(password, user.password);
 
-    const isCorrectPassword = await bcrypt.compare(password, user.password);
+      if (!isCorrectPassword) {
+        res.status(401).json({ message: "Incorrect email or password" });
+      } else {
+        const plainUser = user.get();
+        delete plainUser.password;
 
-    if (!isCorrectPassword) {
-      res.status(401).json({ message: 'Incorrect email or password' });
+        const { accessToken, refreshToken } = generateToken({
+          user: plainUser,
+        });
+
+        res
+          .cookie("refreshToken", refreshToken, cookieConfig.refreshToken)
+          .json({ user: plainUser, accessToken });
+      }
     } else {
-      const plainUser = user.get();
-      delete plainUser.password;
-
-      const { accessToken, refreshToken } = generateToken({ user: plainUser });
-
-      res
-        .cookie('refreshToken', refreshToken, cookieConfig.refreshToken)
-        .json({ user: plainUser, accessToken });
-    }} else {
-      res.sendStatus(404)
+      res.sendStatus(404);
     }
   })
-  .get('/logout', (req, res) => {
+  .get("/logout", (req, res) => {
     try {
-      res.clearCookie('refreshToken').sendStatus(200);
+      res.clearCookie("refreshToken").sendStatus(200);
     } catch (error) {
       console.error(error);
       res.sendStatus(400);
