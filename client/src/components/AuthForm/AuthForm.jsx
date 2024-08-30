@@ -144,7 +144,7 @@ export default function AuthForm({ title, type = "signin", setUser, showAlert, s
         </div>
       </form>
 
-      {showAlert && (
+      {/* {showAlert && (
         <Alert status="info">
           <AlertIcon />
           Сообщение админу о регистрации нового курьера отправлено.
@@ -156,7 +156,7 @@ export default function AuthForm({ title, type = "signin", setUser, showAlert, s
             Закрыть
           </Button>
         </Alert>
-      )}
+      )} */}
     </>
   );
 }
