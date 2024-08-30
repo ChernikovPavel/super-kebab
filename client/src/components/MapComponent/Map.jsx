@@ -91,7 +91,7 @@ function Map({
     order_id: id,
     user_id: user.id,
   };
-  console.log(selectedOrder);
+  // console.log(selectedOrder);
 
   const addOrderOnDelivery = () => {
     axiosInstance
@@ -109,8 +109,8 @@ function Map({
       .catch((er) => console.log(er));
     onClose();
   };
-  console.log(selectedOrder);
-  console.log(orderInDelivery);
+  // console.log(selectedOrder);
+  // console.log(orderInDelivery);
 
   return (
     <>

@@ -3,32 +3,21 @@ import {
   Box,
   Card,
   CardBody,
-  CardHeader,
-  Heading,
   Image,
   ListItem,
-  Stack,
-  StackDivider,
   Text,
   UnorderedList,
-  theme,
 } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
 import OrderModal from '../Modals/OrderModal';
-import axiosInstance from '../../tools/axiosInstance';
 import UserLKModal from '../Modals/UserLKModal';
 
-const mock = {
-  src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6-299JAubvODF7WnjVl0thalIFa3XwF6BzQ&s',
-};
 
 
-export default function OrderCard({element, roundedButton, user, type='map'}) {
+export default function OrderCard({ element, roundedButton, user, type='map'}) {
 
 
-console.log(element)
   return (
-    <Card width="20em" margin='2em' justifyContent='space-between'>
+    <Card width="20em" height='32.7em' margin='2em' justifyContent='space-between'>
         <Box>
           <CardBody>
             <Image
@@ -38,14 +27,14 @@ console.log(element)
               rounded="8px"
             />
             <Text marginBottom="10px" >Заказ №{element.id}</Text>
-            <Text align='left'>
-            <Text  fontWeight='500'> Общая стоимость: </Text>
+            <Box align='left'>
+            <Text fontWeight='500'> Общая стоимость: </Text>
             <chakra.span align='left' textColor='red' fontWeight='700' style={{textDecoration: 'line-through 3px'}}>{element.old_order_price}</chakra.span>
             <chakra.span fontWeight='700' textColor='green'> {element.new_order_price}</chakra.span>
             <chakra.span  fontWeight='500'> USD </chakra.span>
-            </Text>
+            </Box>
             <UnorderedList>
-              {element.Products.map((el) => (<ListItem textAlign='left'>{el.product_name}</ListItem>))}
+              {element.Products.map((el) => (<ListItem key={el.id} textAlign='left'>{el.product_name}</ListItem>))}
             </UnorderedList>
           </CardBody>
         </Box>
@@ -59,14 +48,14 @@ console.log(element)
               rounded="8px"
             />
             <Text marginBottom="10px" >Заказ №{element.id}</Text>
-            <Text align='left'>
+            <Box align='left'>
             <Text  fontWeight='500'> Общая стоимость: </Text>
             <chakra.span align='left' textColor='red' fontWeight='700' style={{textDecoration: 'line-through 3px'}}>{element.old_order_price}</chakra.span>
             <chakra.span fontWeight='700' textColor='green'> {element.new_order_price}</chakra.span>
             <chakra.span  fontWeight='500'> USD </chakra.span>
-            </Text>
+            </Box>
             <UnorderedList>
-              {element.Products.map((el) => (<ListItem textAlign='left'>{el.product_name}</ListItem>))}
+              {element.Products.map((el) => (<ListItem key={el.id} textAlign='left'>{el.product_name}</ListItem>))}
             </UnorderedList>
           </UserLKModal>
           : 
