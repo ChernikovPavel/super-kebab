@@ -34,11 +34,6 @@ function App() {
           element: <HomePage user={user} />,
         },
         {
-          path: '/order/:id',
-
-          element: <OrderCard user={user} />,
-        },
-        {
           path: '/ProfileSettingsPage',
 
           element: (
