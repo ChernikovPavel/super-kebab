@@ -16,6 +16,7 @@ import {
   Text,
   useDisclosure,
   Flex,
+  Box,
 } from '@chakra-ui/react';
 import axiosInstance from '../../tools/axiosInstance';
 
@@ -125,7 +126,7 @@ function Map({
 
   return (
     <>
-      <div id='map' className='map1'></div>
+      <Box id='map' className='map1' overflow='hidden'>
       <Modal isOpen={isOpen} isCentered onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -134,7 +135,7 @@ function Map({
           <ModalBody>
             {selectedOrder ? (
               <>
-                <Flex>
+                <Flex flexWrap='wrap' justifyContent='center'>
                   {selectedOrder.Products?.map((el) => (
                     <Image
                       key={el.id}
@@ -181,6 +182,7 @@ function Map({
           )}
         </ModalContent>
       </Modal>
+      </Box>
     </>
   );
 }

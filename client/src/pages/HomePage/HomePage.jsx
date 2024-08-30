@@ -28,7 +28,7 @@ export default function HomePage({
   }, []);
   console.log(sortOrderForDelivery);
   return (
-    <Box m='0 auto' w={'700px'} h={'600px'}>
+    <Box m='0 auto' w={'700px'} h={'600px'} overflow='hidden'>
       <Map
         selectedOrder={selectedOrder}
         setSelectedOrder={setSelectedOrder}
@@ -39,7 +39,6 @@ export default function HomePage({
         sortOrderForDelivery={sortOrderForDelivery}
         setSortOrderForDelivery={setSortOrderForDelivery}
       />
-      {/* <MapOrderModal isOpen={isOpen} onClose={onClose} /> */}
     </Box>
   );
 }

@@ -27,8 +27,7 @@ import {
   
   console.log(element.Products[0].photo)
     return (
-      <Card width="20em" margin='2em'>
-        <Stack divider={<StackDivider style={{margin:'0'}}/>} spacing="4">
+      <Card width="20em" margin='2em' justifyContent='space-between'>
           <Box>
             <CardBody>
               <Image
@@ -52,7 +51,6 @@ import {
           <Box>
           <CourierModal rounded='0' width='100%' element={element} changeOrders={changeOrders}></CourierModal>
           </Box>
-        </Stack>
       </Card>
     );
   }

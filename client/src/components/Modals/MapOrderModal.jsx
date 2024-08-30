@@ -1,5 +1,6 @@
 import {
   Button,
+  Flex,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -38,13 +39,18 @@ export default function MapOrderModal({
         <ModalContent>
           <ModalHeader>{header}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>{children}</ModalBody>
+          <ModalBody>
+            <Flex flexWrap='wrap' justifyContent='center' width='100px'>
+            
+            {children}
+            </Flex>
+            </ModalBody>
           <ModalFooter>
             <Button colorScheme='gray' variant='ghost' mr={3} onClick={onClose}>
-              Закрыть
+              Закрыssssssть
             </Button>
             <Button colorScheme='orange' variant='ghost' onClick={takeOrder}>
-              Забираю!
+              Забsssираю!
             </Button>
           </ModalFooter>
         </ModalContent>
