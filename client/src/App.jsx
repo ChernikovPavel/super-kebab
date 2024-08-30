@@ -9,6 +9,7 @@ import axiosInstance, { setAccessToken } from './tools/axiosInstance';
 import ProfileSettingsPage from './pages/ProfileSettingsPage/ProfileSettingsPage';
 import ProtectedRoute from './tools/ProtectedRoute';
 import CourierProfilePage from './pages/CourierProfilePage/CourierProfilePage';
+import CostumerProfilePage from './pages/CostumerProfilePage/CostumerProfilePage';
 
 function App() {
   const [user, setUser] = useState({});
@@ -22,8 +23,6 @@ function App() {
         setAccessToken(res.data.accessToken);
       });
   }, []);
-  console.log('1',user.id);
-  
   const router = createBrowserRouter([
     {
       path: '/',
@@ -73,6 +72,18 @@ function App() {
             <ProtectedRoute authUser={user.username} redirectTo={'/'}showAlert={showAlert} setShowAlert={setShowAlert}>
               <SignupPage setUser={setUser} showAlert={showAlert} setShowAlert={setShowAlert} />
              </ProtectedRoute>
+          ),
+        },
+        {
+          path: '/CustomerProfilePage',
+          element: (
+            <ProtectedRoute
+              authUser={user.username}
+              redirectTo={'/'}
+              isLogRequired
+            >
+              <CostumerProfilePage user={user} />
+            </ProtectedRoute>
           ),
         },
       ],

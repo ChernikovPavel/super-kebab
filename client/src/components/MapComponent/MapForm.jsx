@@ -68,14 +68,7 @@ function MapForm({
             if (activeRoute) {
               setDistance(activeRoute.properties.get('distance').text);
               // Вывод информации об активном маршруте.
-              console.log(
-                'Длина: ' + activeRoute.properties.get('distance').text
-              );
               setDuration(activeRoute.properties.get('duration').text);
-              console.log(
-                'Время прохождения: ' +
-                  activeRoute.properties.get('duration').text
-              );
             }
           });
           multiRoute.model.events.add('requestsuccess', function () {
@@ -85,7 +78,6 @@ function MapForm({
             const wayPoint = [];
 
             wayPoints.each(function (point) {
-              console.log('point', point);
               wayPoint.push(point.geometry._coordinates);
             });
             setWayPointsOnMap(wayPoint);

@@ -3,17 +3,18 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate({ Order, Cart }) {
+
       this.belongsToMany(Order, {
+        as: 'ordersInCart',
         through: {
           model: Cart,
-          as: 'customer',
         },
         foreignKey: 'user_id',
-        as: 'ordersInCart',
       });
+
       this.hasMany(Order, {
+        as: 'courier',
         foreignKey: 'user_id',
-        as: 'OwnedOrders',
       });
     }
   }
@@ -24,13 +25,11 @@ module.exports = (sequelize, DataTypes) => {
       password: DataTypes.STRING,
       role: DataTypes.STRING,
       role: {
-        type: DataTypes.ENUM(['user', 'courier']), 
+        type: DataTypes.ENUM(['user', 'courier']),
         allowNull: false,
-        defaultValue: 'user', 
+        defaultValue: 'user',
       },
-      
-       
-      
+
       address: DataTypes.STRING,
       phone_number: DataTypes.STRING,
     },

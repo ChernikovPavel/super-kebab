@@ -36,7 +36,7 @@ export default function Navbar({ user, setUser }) {
         rounded="sm"
       >
         <Flex justifyContent="space-between" margin="auto 0" padding="0 1em">
-          <Flex>
+          <Flex >
             <Image
               src="/doel.svg"
               margin="auto"

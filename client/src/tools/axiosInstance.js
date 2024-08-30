@@ -11,8 +11,6 @@ function setAccessToken(newToken) {
 }
 
 axiosInstance.interceptors.request.use((config) => {
-  console.log('interceptors', accessToken);
-
   // * для передачи куки
   config.withCredentials = true;
 

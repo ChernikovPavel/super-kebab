@@ -29,7 +29,6 @@ export default function AuthForm({ title, type = "signin", setUser, showAlert, s
       );
       setUser(response.data.user);
       setAccessToken(response.data.accessToken);
-      console.log(role);
 
       if (role === "courier") {
         setShowAlert(true);
@@ -53,7 +52,6 @@ export default function AuthForm({ title, type = "signin", setUser, showAlert, s
     }
   };
   useEffect(() => {
-    console.log(showAlert,'showalert');
     
     if (showAlert) {
       

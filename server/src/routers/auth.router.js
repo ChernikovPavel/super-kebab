@@ -57,12 +57,10 @@ router
       } else {
         const plainUser = user.get();
         delete plainUser.password;
-        console.log("plainUser", plainUser);
 
         const { accessToken, refreshToken } = generateToken({
           user: plainUser,
         });
-        console.log("accessToken, refreshToken", accessToken, refreshToken);
 
         res
           .cookie("refreshToken", refreshToken, cookieConfig.refreshToken)

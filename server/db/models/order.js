@@ -4,20 +4,22 @@ const product = require('./product');
 module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
     static associate({ User, Cart, ProductBundle, Product }) {
+
       this.belongsToMany(User, {
+        as: 'ordersInCart',
         through: {
           model: Cart,
-          as: 'customer',
         },
-        foreignKey: 'user_id',
+        foreignKey: 'order_id',
       });
-      this.belongsTo(User, { foreignKey: 'user_id', as: 'courier' });
 
       this.belongsToMany(Product, {
         through: { model: ProductBundle },
         foreignKey: 'order_id',
+        // foreignKey: 'product_id',
       });
 
+      this.belongsTo(User, { as: 'courier', foreignKey: 'user_id' });
       this.hasMany(Cart, { foreignKey: 'order_id' });
     }
   }
