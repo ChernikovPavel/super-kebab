@@ -10,7 +10,7 @@ module.exports = {
         username: i,
         email: i + '@' + i,
         password: bcrypt.hashSync(String(i), 10),
-        role: Math.random() > 0.5 ? 'courier' : 'user',
+        role: i % 2 === 0 ? 'courier' : 'user',
         address: 'г.Пушкин, ул. Пушкина, д.' + i,
         phone_number: '765876587658',
       });
