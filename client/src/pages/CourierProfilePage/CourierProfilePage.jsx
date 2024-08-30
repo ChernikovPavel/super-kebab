@@ -25,21 +25,19 @@ export default function CourierProfilePage({user}) {
   useEffect(() => {
     axiosInstance.get('api/order/').then((res) => changeOrders(res.data));
   }, []);
-  console.log('1',user.id);
-  console.log('2',orders[0]);
+
 return (
 
 <div className={styles.wrapper}>  
 <Heading as='h3' size='xl'>
 Личный кабинет курьера
 </Heading> <br/><br/>
+<Flex flexWrap='wrap' justifyContent='center'>
+      {orders.map((el) => (
+        <CourierCard key={el.id} element={el} changeOrders={changeOrders}></CourierCard>
+      ))}
+    </Flex>    
 <Flex>
-      {orders.map((el) => {
-        console.log('12134',el);
-        
-       return <CourierCard key={el.id} element={el} changeOrders={changeOrders}></CourierCard>
-      }
-      )}
     </Flex>    
   </div>
 );
