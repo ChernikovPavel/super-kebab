@@ -24,10 +24,10 @@ export default function CourierProfilePage({user}) {
 console.log(user);
 
   useEffect(() => {
-    axiosInstance.get('api/order/').then((res) => changeOrders(res.data));
-  }, []);
+    axiosInstance.get('api/order/courier/' + user.id).then((res) => changeOrders(res.data));
+    }, []);
   console.log('1',user.id);
-  console.log('2',orders[0]);
+  console.log('2',orders);
 return (
 
 <div className={styles.wrapper}>  

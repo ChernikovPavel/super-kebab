@@ -15,7 +15,6 @@ function NavButton({ children, to }) {
 
 export default function Navbar({ user, setUser }) {
   const navigate = useNavigate();
-
   const logoutHandler = async () => {
     const response = await axiosInstance.get(
       `${import.meta.env.VITE_API}/auth/logout`
@@ -51,8 +50,11 @@ export default function Navbar({ user, setUser }) {
             {Object.keys(user).length ? (
               <>
                 <Button colorScheme="orange" onClick={logoutHandler}>Unlog</Button>
-                <NavButton to="/ProfileSettingsPage">LK</NavButton>
+                <NavButton to="/ProfileSettingsPage">Settings</NavButton>
+                {user.role === 'courier' ?
                 <NavButton to="/CourierProfilePage">LK</NavButton>
+                :
+                <NavButton to="/CustomerProfilePage">LK</NavButton>}
               </>
             ) : (
               <>

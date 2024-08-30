@@ -80,6 +80,7 @@ router.get('/withuser/:id', async (req, res) => {
     res.sendStatus(500);
   }
 });
+
 router.delete('/:id', verifyAccessToken, async (req, res) => {
   const { id } = req.params;
   const { user } = res.locals;
@@ -92,5 +93,24 @@ router.delete('/:id', verifyAccessToken, async (req, res) => {
     res.sendStatus(400);
   }
 })
+
+router.get('/courier/:id', async (req, res) => {
+  try {
+    const orders = await Order.findAll({
+      where: { user_id: req.params.id },
+          include: [
+            {
+              model: Product,
+              through: ProductBundle,
+            },
+          ],
+    });
+    
+    res.json(orders);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
 
 module.exports = router;
