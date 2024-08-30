@@ -58,11 +58,21 @@ router.put('/:id', verifyAccessToken, async (req, res) => {
 
 router.get('/user/:id', async (req, res) => {
   try {
-    const carts = await Cart.findAll({ where: {user_id: req.params.id},
-      include: [{ model: Order}],
+    const carts = await Cart.findAll({
+      where: { user_id: req.params.id },
+      include: [
+        {
+          model: Order,
+          include: [
+            {
+              model: Product,
+              through: ProductBundle,
+            },
+          ],
+        },
+      ],
     });
-    res.json(carts)
-    console.log(carts);
+    res.json(carts);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
@@ -72,9 +82,14 @@ router.get('/user/:id', async (req, res) => {
 router.get('/withuser/:id', async (req, res) => {
   try {
     const carts = await User.findByPk(req.params.id, {
-      include: [{ model: Order, through: {model: Cart}, as: 'ordersInCart' }],
+      include: [
+        {
+          model: Order,
+          through: { model: Cart },
+          as: 'ordersInCart',
+        },
+      ],
     });
-    console.log(carts);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
