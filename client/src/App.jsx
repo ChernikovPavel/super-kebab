@@ -23,8 +23,6 @@ function App() {
         setAccessToken(res.data.accessToken);
       });
   }, []);
-  console.log('1',user.id);
-  
   const router = createBrowserRouter([
     {
       path: '/',
