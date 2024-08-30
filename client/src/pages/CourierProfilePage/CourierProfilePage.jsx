@@ -28,9 +28,12 @@ export default function CourierProfilePage({user}) {
 return (
 
 <div className={styles.wrapper}>  
-<Heading as='h3' size='xl'>
-Личный кабинет курьера
-</Heading> <br/><br/>
+<Heading as="h3" size="xl">
+        <chakra.span>Личный кабинет курьера&nbsp;</chakra.span>
+        <chakra.span fontWeight="900" color="#f37b3f">
+          {user.username}
+        </chakra.span>
+      </Heading>
 <Flex flexWrap='wrap' justifyContent='center'>
       {orders.map((el) => (
         <CourierCard key={el.id} element={el} changeOrders={changeOrders}></CourierCard>

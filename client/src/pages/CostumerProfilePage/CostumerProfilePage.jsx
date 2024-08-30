@@ -31,14 +31,12 @@ export default function CostumerProfilePage({ user }) {
       changeOrders(res.data.ordersInCart.map((el) => el));
     });
   }, []);
-console.log('orders', orders)
+  console.log('orders', orders);
   return (
     <div className={styles.wrapper}>
       <Heading as="h3" size="xl">
-        <Text></Text>
-        Личный кабинет покупателя
+        <chakra.span>Личный кабинет покупателя&nbsp;</chakra.span>
         <chakra.span fontWeight="900" color="#f37b3f">
-
           {user.username}
         </chakra.span>
       </Heading>
