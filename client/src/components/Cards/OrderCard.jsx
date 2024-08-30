@@ -28,7 +28,8 @@ export default function OrderCard({element, roundedButton, user, type='map'}) {
 
 console.log(element)
   return (
-    <Card width="20em" margin='2em' justifyContent='space-between'>
+    <Card width="20em" margin='2em'>
+      <Stack divider={<StackDivider style={{margin:'0'}}/>} spacing="4">
         <Box>
           <CardBody>
             <Image
@@ -49,7 +50,7 @@ console.log(element)
             </UnorderedList>
           </CardBody>
         </Box>
-        <Box >
+        <Box>
           {type === 'userLK' ? 
         <UserLKModal rounded='0' width='100%' element={element}>
                       <Image
@@ -73,6 +74,7 @@ console.log(element)
           <OrderModal rounded='0' width='100%' element={element}></OrderModal>
           }
         </Box>
+      </Stack>
     </Card>
   );
 }

@@ -33,16 +33,14 @@ return (
 <Heading as='h3' size='xl'>
 Личный кабинет курьера
 </Heading> <br/><br/>
-
-<Flex flexWrap='wrap' justifyContent='center'>
+<Flex>
       {orders.map((el) => {
         console.log('12134',el);
         
        return <CourierCard key={el.id} element={el} changeOrders={changeOrders}></CourierCard>
       }
       )}
-    </Flex>
-
+    </Flex>    
   </div>
 );
 }

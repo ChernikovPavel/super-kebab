@@ -8,7 +8,7 @@ module.exports = {
     const product = await Product.findAll({ attributes: ['id'] });
     const orders = await Order.findAll({ attributes: ['id'] });
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 5000; i++) {
       arr.push({
         order_id: orders[i % orders.length].dataValues.id,
         product_id:

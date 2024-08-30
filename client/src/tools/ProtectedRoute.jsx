@@ -5,7 +5,14 @@ import { Navigate } from "react-router-dom";
 import { Alert, AlertIcon, Button } from "@chakra-ui/react";
 
 export default function ProtectedRoute({ children, authUser, isLogRequired, redirectTo='/', showAlert, setShowAlert }) {
- if (showAlert) {
+ 
+
+  // if (authUser.role === 'courier' && redirectTo !== '/courier-dashboard') {
+  //   return <Navigate to="/courier-dashboard" />;
+  // }
+
+
+if (showAlert) {
   return (
     <>
       <Alert status="info">
@@ -18,7 +25,8 @@ export default function ProtectedRoute({ children, authUser, isLogRequired, redi
       {children}
     </>
   );
-} else if (Boolean(authUser) === Boolean(isLogRequired)) {
+}
+if (Boolean(authUser) === Boolean(isLogRequired)) {
   return children;
 } else {
   return <Navigate to={redirectTo} />;
