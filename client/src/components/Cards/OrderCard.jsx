@@ -32,7 +32,7 @@ console.log(element)
         <Box>
           <CardBody>
             <Image
-              src={element.Products[0].photo}
+              src={element?.Products[0].photo}
               width="100%"
               margin="0 auto 1em auto"
               rounded="8px"

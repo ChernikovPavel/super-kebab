@@ -95,6 +95,17 @@ router.get('/withuser/:id', async (req, res) => {
     res.sendStatus(500);
   }
 });
-router.get('/:id');
+router.delete('/:id', verifyAccessToken, async (req, res) => {
+  const { id } = req.params;
+  const { user } = res.locals;
+  try {
+    const order = await Order.findOne({ where: { id } });
+      order.destroy();
+      res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(400);
+  }
+})
 
 module.exports = router;
