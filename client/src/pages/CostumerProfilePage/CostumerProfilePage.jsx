@@ -33,11 +33,11 @@ export default function CostumerProfilePage({user}) {
       </Heading>
       <br />
       <br />
-      <Wrap>
+      <Flex flexWrap='wrap' justifyContent='center'>
         {orders.map((el) => {
           return (<WrapItem key={el.id}><OrderCard  element={el} user={user} type='userLK'></OrderCard></WrapItem>)
         })}
-      </Wrap>
+      </Flex>
     </div>
   );
 }
