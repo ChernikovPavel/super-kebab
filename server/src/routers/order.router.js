@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 const { where } = require('sequelize');
 const {
+  
   Order,
   Product,
   ProductBundle,
@@ -30,7 +31,7 @@ router.get('/', async (req, res) => {
         },
       ],
     });
-
+    res.json(allOrders)
   } catch (error) {
     res.sendStatus(400);
     console.log(error);

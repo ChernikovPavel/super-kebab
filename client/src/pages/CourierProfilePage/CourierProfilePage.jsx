@@ -1,6 +1,7 @@
 import {
   Button,
   Flex,
+  chakra,
   Modal,
   ModalBody,
   ModalCloseButton,

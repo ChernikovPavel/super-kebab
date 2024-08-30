@@ -20,70 +20,76 @@ import {
 import axiosInstance from '../../tools/axiosInstance';
 
 function Map({
+  selectedOrder,
+  setSelectedOrder,
+  remuveMap,
+  setRemuveMap,
   orderInDelivery,
   setOrderInDelivery,
-  remuveMap,
   sortOrderForDelivery,
   user,
   setSortOrderForDelivery,
 }) {
-  const [isMap, setIsMap] = useState(false);
   const { id } = useParams();
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  // const [selectedOrder, setSelectedOrder] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
 
   const coordinatesToNumber = (coordinates) =>
     coordinates?.map((el) => Number(el));
 
   useEffect(() => {
-    const findClass = document.querySelector('.ymaps-2-1-79-map');
-    if (!remuveMap) {
-      if (findClass) document.querySelector('#map').removeChild(findClass);
-    }
+    if (sortOrderForDelivery) {
+      const findClass = document.querySelector('.ymaps-2-1-79-map');
 
-    const oldMap = document.querySelector('.ymaps-2-1-79-map');
-    if (!oldMap) {
-      const script = document.createElement('script');
-      script.setAttribute('type', 'text/javascript');
-      script.src =
-        'https://api-maps.yandex.ru/2.1.78/?apikey=24c18903-4f64-4649-87e4-d2621aa227b9&lang=ru_RU';
-      script.async = true;
-      document.body.appendChild(script);
-      script.onload = () => {
-        ymaps.ready(init);
-        function init() {
-          var myMap = new ymaps.Map(
-            'map',
-            { center: [59.70257936760503, 30.3656016400904], zoom: 10 },
-            { searchControlProvider: 'yandex#search' }
-          );
+      if (!remuveMap) {
+        if (findClass) document.querySelector('#map').removeChild(findClass);
+      }
+      console.log('findClass', findClass);
+      console.log('document.querySelector', document.querySelector('#map'));
+      if (!findClass) {
+        const script = document.createElement('script');
+        script.setAttribute('type', 'text/javascript');
+        script.src =
+          'https://api-maps.yandex.ru/2.1.78/?apikey=24c18903-4f64-4649-87e4-d2621aa227b9&lang=ru_RU';
+        script.async = true;
+        document.body.appendChild(script);
+        script.onload = () => {
+          ymaps.ready(init);
+          function init() {
+            var myMap = new ymaps.Map(
+              'map',
+              { center: [59.70257936760503, 30.3656016400904], zoom: 10 },
+              { searchControlProvider: 'yandex#search' }
+            );
 
-          if (
-            Array.isArray(sortOrderForDelivery) &&
-            sortOrderForDelivery.length > 0
-          ) {
-            sortOrderForDelivery.forEach((order) => {
-              const { id, coordinates, new_order_price } = order;
+            if (
+              Array.isArray(sortOrderForDelivery) &&
+              sortOrderForDelivery.length > 0
+            ) {
+              sortOrderForDelivery.forEach((order) => {
+                const { id, coordinates, new_order_price } = order;
 
-              const placemark = new ymaps.Placemark(coordinates, {
-                preset: 'islands#governmentCircleIcon',
-                iconColor: 'red',
-              });
-              if (user) {
-                placemark.events.add('click', () => {
-                  setSelectedOrder(order);
-                  onOpen();
+                const placemark = new ymaps.Placemark(coordinates, {
+                  preset: 'islands#governmentCircleIcon',
+                  iconColor: 'red',
                 });
-              }
-              myMap.geoObjects.add(placemark);
-            });
+                if (user) {
+                  placemark.events.add('click', () => {
+                    setSelectedOrder(order);
+                    onOpen();
+                  });
+                }
+                myMap.geoObjects.add(placemark);
+              });
+            }
           }
-        }
-      };
-      // Удаляем скрипт при размонтировании компонента
-      return () => {
-        document.body.removeChild(script);
-      };
+        };
+        // Удаляем скрипт при размонтировании компонента
+        return () => {
+          document.body.removeChild(script);
+        };
+      }
     }
   }, [sortOrderForDelivery]);
 
@@ -93,24 +99,29 @@ function Map({
   };
   // console.log(selectedOrder);
 
-  const addOrderOnDelivery = () => {
-    axiosInstance
-      .put(`${import.meta.env.VITE_API}/order/${selectedOrder.id}`, {
-        id: selectedOrder.id,
-        status: 'delivery',
-      })
-      .then((res) => {
-        setSelectedOrder((prev) => ({ ...prev, status: 'delivery' }));
-        const changeState = sortOrderForDelivery.filter(
-          (el) => el.id !== selectedOrder.id
-        );
-        setSortOrderForDelivery(changeState);
-      })
-      .catch((er) => console.log(er));
+  const remuveOnFormAddress = () => {
+    navigate(`/form/address/${selectedOrder.id}`);
+
     onClose();
   };
-  // console.log(selectedOrder);
-  // console.log(orderInDelivery);
+
+  // const addOrderOnDelivery = () => {
+  //   axiosInstance
+  //     .put(`${import.meta.env.VITE_API}/order/${selectedOrder.id}`, {
+  //       id: selectedOrder.id,
+  //       status: 'delivery',
+  //     })
+  //     .then((res) => {
+  //       setSelectedOrder((prev) => ({ ...prev, status: 'delivery' }));
+  //       const changeState = sortOrderForDelivery.filter(
+  //         (el) => el.id !== selectedOrder.id
+  //       );
+  //       setSortOrderForDelivery(changeState);
+  //       navigate(`/form/address/${selectedOrder.id}`);
+  //     })
+  //     .catch((er) => console.log(er));
+  //   onClose();
+  // };
 
   return (
     <>
@@ -138,9 +149,11 @@ function Map({
                 </Flex>
 
                 <Text>
-                  Заказ ID: {selectedOrder.id}
+                  Заказ: {selectedOrder.id}
                   <br />
-                  Цена: {selectedOrder.new_order_price}
+                  Старая цена: {selectedOrder.old_order_price}
+                  <br />
+                  Новая цена: {selectedOrder.new_order_price}
                 </Text>
               </>
             ) : (
@@ -160,7 +173,7 @@ function Map({
               <Button
                 colorScheme='orange'
                 variant='ghost'
-                onClick={addOrderOnDelivery}
+                onClick={remuveOnFormAddress}
               >
                 Забираю!
               </Button>
