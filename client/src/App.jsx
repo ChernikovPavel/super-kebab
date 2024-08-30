@@ -13,6 +13,7 @@ import OrderCard from './components/Cards/OrderCard';
 
 function App() {
   const [user, setUser] = useState({});
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     axiosInstance
@@ -44,7 +45,7 @@ function App() {
               authUser={user.username}
               redirectTo={'/'}
               isLogRequired
-            >
+             showAlert={showAlert} setShowAlert={setShowAlert}>
               <ProfileSettingsPage user={user} />,
             </ProtectedRoute>
           ),
@@ -60,9 +61,9 @@ function App() {
         {
           path: '/signup',
           element: (
-            <ProtectedRoute authUser={user.username} redirectTo={'/'}>
-              <SignupPage setUser={setUser} />
-            </ProtectedRoute>
+            <ProtectedRoute authUser={user.username} redirectTo={'/'}showAlert={showAlert} setShowAlert={setShowAlert}>
+              <SignupPage setUser={setUser} showAlert={showAlert} setShowAlert={setShowAlert} />
+             </ProtectedRoute>
           ),
         },
       
