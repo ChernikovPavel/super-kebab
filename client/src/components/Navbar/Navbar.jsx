@@ -37,7 +37,7 @@ export default function Navbar({ user, setUser }) {
         rounded="sm"
       >
         <Flex justifyContent="space-between" margin="auto 0" padding="0 1em">
-          <Flex className="curt">
+          <Flex>
             <Image
               src="/doel.svg"
               margin="auto"
@@ -52,6 +52,7 @@ export default function Navbar({ user, setUser }) {
               <>
                 <Button colorScheme="orange" onClick={logoutHandler}>Unlog</Button>
                 <NavButton to="/ProfileSettingsPage">LK</NavButton>
+                <NavButton to="/CourierProfilePage">LK</NavButton>
               </>
             ) : (
               <>

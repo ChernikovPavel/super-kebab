@@ -8,8 +8,7 @@ import { useState, useEffect } from 'react';
 import axiosInstance, { setAccessToken } from './tools/axiosInstance';
 import ProfileSettingsPage from './pages/ProfileSettingsPage/ProfileSettingsPage';
 import ProtectedRoute from './tools/ProtectedRoute';
-import OrderCard from './components/Cards/OrderCard';
-
+import CourierProfilePage from './pages/CourierProfilePage/CourierProfilePage';
 
 function App() {
   const [user, setUser] = useState({});
@@ -23,6 +22,8 @@ function App() {
         setAccessToken(res.data.accessToken);
       });
   }, []);
+  console.log('1',user.id);
+  
   const router = createBrowserRouter([
     {
       path: '/',
@@ -51,6 +52,19 @@ function App() {
           ),
         },
         {
+          path: '/CourierProfilePage',
+
+          element: (
+            <ProtectedRoute
+              authUser={user.username}
+              redirectTo={'/'}
+              isLogRequired
+            >
+              <CourierProfilePage user={user} />,
+            </ProtectedRoute>
+          ),
+        },
+        {
           path: '/signin',
           element: (
             <ProtectedRoute authUser={user.username} redirectTo={'/'}>
@@ -66,7 +80,6 @@ function App() {
              </ProtectedRoute>
           ),
         },
-      
       ],
     },
   ]);
