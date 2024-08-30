@@ -15,8 +15,8 @@ import FormAddress from './components/AuthForm/FormAddress/FormAddress';
 
 function App() {
   const [user, setUser] = useState({});
-  const [showAlert, setShowAlert] = useState(false);
   const [address, setAddress] = useState();
+  const [showAlert, setShowAlert] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null); // Стейт показывает заказ выбранный на карте по маркеру
   const [sortOrderForDelivery, setSortOrderForDelivery] = useState();
 
