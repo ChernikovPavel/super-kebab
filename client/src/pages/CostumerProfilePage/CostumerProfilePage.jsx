@@ -46,7 +46,7 @@ export default function CostumerProfilePage({ user }) {
         {orders.map((el) => {
           return (
             <WrapItem key={el.id}>
-              <OrderCard element={el} user={user} type="userLK"></OrderCard>
+              <OrderCard element={el} user={user} type="user" changeOrders={changeOrders}></OrderCard>
             </WrapItem>
           );
         })}

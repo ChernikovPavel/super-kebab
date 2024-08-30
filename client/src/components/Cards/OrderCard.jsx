@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import OrderModal from '../Modals/OrderModal';
 import UserLKModal from '../Modals/UserLKModal';
+import CourierModal from '../Modals/CourierModal';
 
 const listing = (array) => {
   const result = [];
@@ -26,11 +27,12 @@ const listing = (array) => {
 
 export default function OrderCard({
   element,
-  roundedButton,
   user,
-  type = 'map',
+  type = 'user',
+  changeOrders,
 }) {
   return (
+
     <Card
       width="20em"
       height="32.7em"
@@ -57,7 +59,6 @@ export default function OrderCard({
               {element.old_order_price}
             </chakra.span>
             <chakra.span fontWeight="700" textColor="green">
-              {' '}
               {element.new_order_price}
             </chakra.span>
             <chakra.span fontWeight="500"> USD </chakra.span>
@@ -66,7 +67,7 @@ export default function OrderCard({
         </CardBody>
       </Box>
       <Box>
-        {type === 'userLK' ? (
+        {type === 'user' ? (
           <UserLKModal rounded="0" width="100%" element={element}>
             <Image
               src={element.Products[0].photo}
@@ -86,7 +87,6 @@ export default function OrderCard({
                 {element.old_order_price}
               </chakra.span>
               <chakra.span fontWeight="700" textColor="green">
-                {' '}
                 {element.new_order_price}
               </chakra.span>
               <chakra.span fontWeight="500"> USD </chakra.span>
@@ -100,7 +100,7 @@ export default function OrderCard({
             </UnorderedList>
           </UserLKModal>
         ) : (
-          <OrderModal rounded="0" width="100%" element={element}></OrderModal>
+          <CourierModal rounded='0' width='100%' element={element} changeOrders={changeOrders}></CourierModal>
         )}
       </Box>
     </Card>

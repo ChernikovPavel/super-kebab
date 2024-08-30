@@ -37,7 +37,7 @@ return (
       </Heading>
 <Flex flexWrap='wrap' justifyContent='center'>
       {orders.map((el) => (
-        <CourierCard key={el.id} element={el} changeOrders={changeOrders}></CourierCard>
+        <OrderCard key={el.id} element={el} changeOrders={changeOrders} type='courier'></OrderCard>
       ))}
     </Flex>    
 <Flex>
