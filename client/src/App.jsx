@@ -9,10 +9,13 @@ import axiosInstance, { setAccessToken } from './tools/axiosInstance';
 import ProfileSettingsPage from './pages/ProfileSettingsPage/ProfileSettingsPage';
 import ProtectedRoute from './tools/ProtectedRoute';
 import OrderCard from './components/Cards/OrderCard';
-
+import FormAddress from './components/AuthForm/FormAddress/FormAddress';
 
 function App() {
   const [user, setUser] = useState({});
+  const [address, setAddress] = useState();
+  const [selectedOrder, setSelectedOrder] = useState(null); // Стейт показывает заказ выбранный на карте по маркеру
+  const [sortOrderForDelivery, setSortOrderForDelivery] = useState();
 
   useEffect(() => {
     axiosInstance
@@ -29,12 +32,35 @@ function App() {
       children: [
         {
           path: '/',
-          element: <HomePage user={user} />,
+          element: (
+            <HomePage
+              sortOrderForDelivery={sortOrderForDelivery}
+              setSortOrderForDelivery={setSortOrderForDelivery}
+              selectedOrder={selectedOrder}
+              setSelectedOrder={setSelectedOrder}
+              user={user}
+            />
+          ),
         },
         {
           path: '/order/:id',
 
           element: <OrderCard user={user} />,
+        },
+        {
+          path: '/form/address/:id',
+
+          element: (
+            <FormAddress
+              sortOrderForDelivery={sortOrderForDelivery}
+              setSortOrderForDelivery={setSortOrderForDelivery}
+              selectedOrder={selectedOrder}
+              setSelectedOrder={setSelectedOrder}
+              address={address}
+              setAddress={setAddress}
+              user={user}
+            />
+          ),
         },
         {
           path: '/ProfileSettingsPage',
@@ -65,7 +91,6 @@ function App() {
             </ProtectedRoute>
           ),
         },
-      
       ],
     },
   ]);
