@@ -7,8 +7,9 @@ module.exports = (sequelize, DataTypes) => {
         through: {
           model: Cart,
           as: 'customer',
-          foreignKey: 'user_id',
         },
+        foreignKey: 'user_id',
+        as: 'ordersInCart',
       });
       this.hasMany(Order, {
         foreignKey: 'user_id',

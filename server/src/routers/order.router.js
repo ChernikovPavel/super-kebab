@@ -1,7 +1,13 @@
 const router = require('express').Router();
 
 const { where } = require('sequelize');
-const { Order, Product, ProductBundle } = require('../../db/models');
+const {
+  Order,
+  Product,
+  ProductBundle,
+  Cart,
+  User,
+} = require('../../db/models');
 const { verifyAccessToken } = require('../../middlewares/verifyToken');
 
 router.get('/', async (req, res) => {
@@ -19,14 +25,8 @@ router.get('/', async (req, res) => {
       ],
       include: [
         {
-          model: ProductBundle,
-          attributes: [],
-          include: [
-            {
-              model: Product,
-              attributes: ['id', 'photo', 'product_name', 'price'],
-            },
-          ],
+          model: Product,
+          through: ProductBundle,
         },
       ],
     });
@@ -43,23 +43,43 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.put('/', verifyAccessToken, (req,res) => {
+router.put('/:id', verifyAccessToken, async (req, res) => {
   try {
-    const {id, status} = req.body
-    console.log({id, status})
+    const { id, status } = req.body;
+    console.log({ id, status });
+    const ubdate = await Order.update({ status }, { where: { id } });
+    console.log('изменения произведены', ubdate);
+    res.sendStatus(200);
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    res.sendStatus(400);
   }
-})
+});
 
-// router.get('/', async (req, res) => {
-//   try {
-//     const arr = await Product.findAll();
+router.get('/user/:id', async (req, res) => {
+  try {
+    const carts = await Cart.findAll({ where: {user_id: req.params.id},
+      include: [{ model: Order}],
+    });
+    res.json(carts)
+    console.log(carts);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
 
-//     res.json(arr);
-//   } catch (error) {
-//     res.sendStatus(400);
-//     console.log(error);
-//   }
-// });
+router.get('/withuser/:id', async (req, res) => {
+  try {
+    const carts = await User.findByPk(req.params.id, {
+      include: [{ model: Order, through: {model: Cart}, as: 'ordersInCart' }],
+    });
+    console.log(carts);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+router.get('/:id');
+
 module.exports = router;
