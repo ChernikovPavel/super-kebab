@@ -31,7 +31,7 @@ return (
 <Heading as='h3' size='xl'>
 Личный кабинет курьера
 </Heading> <br/><br/>
-<Flex>
+<Flex flexWrap='wrap' justifyContent='center'>
       {orders.map((el) => (
         <OrderCard key={el.id} element={el}></OrderCard>
       ))}
