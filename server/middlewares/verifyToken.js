@@ -16,17 +16,13 @@ const verifyRefreshToken = (req, res, next) => {
 const verifyAccessToken = (req, res, next) => {
   try {
     const accessToken = req.headers.authorization.split(' ')[1];
-    console.log(accessToken);
     const { user } = jwt.verify(accessToken, process.env.SECRET_ACCESS_TOKEN);
     res.locals.user = user;
-    console.log('22', user);
     
-console.log('reslocals22', res.locals.user);
 
     next();
   } catch (error) {
     console.log('Invalid access', error);
-    
     res.status(400).json({ message: 'Invalid access' });
   }
 };

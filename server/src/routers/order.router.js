@@ -30,13 +30,7 @@ router.get('/', async (req, res) => {
         },
       ],
     });
-    res.json(allOrders);
-    console.dir(
-      allOrders.map((el) => el.get({ plain: true })),
-      {
-        depth: null,
-      }
-    );
+
   } catch (error) {
     res.sendStatus(400);
     console.log(error);
@@ -46,9 +40,8 @@ router.get('/', async (req, res) => {
 router.put('/:id', verifyAccessToken, async (req, res) => {
   try {
     const { id, status } = req.body;
-    console.log({ id, status });
-    const ubdate = await Order.update({ status }, { where: { id } });
-    console.log('изменения произведены', ubdate);
+    const update = await Order.update({ status }, { where: { id } });
+    console.log('изменения произведены', update);
     res.sendStatus(200);
   } catch (error) {
     console.log(error);
@@ -62,11 +55,13 @@ router.get('/user/:id', async (req, res) => {
       where: { user_id: req.params.id },
       include: [
         {
+          // required: false,
           model: Order,
           include: [
             {
+              required: false,
+              through: {model: ProductBundle},
               model: Product,
-              through: ProductBundle,
             },
           ],
         },
@@ -81,15 +76,23 @@ router.get('/user/:id', async (req, res) => {
 
 router.get('/withuser/:id', async (req, res) => {
   try {
-    const carts = await User.findByPk(req.params.id, {
+    const user = await User.findByPk(req.params.id, {
       include: [
         {
           model: Order,
-          through: { model: Cart },
           as: 'ordersInCart',
+          required: false,
+          include: [
+            {
+              required: false,
+              model: Product,
+            },
+          ],
         },
       ],
     });
+  
+    res.json(user);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);

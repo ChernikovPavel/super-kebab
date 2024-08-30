@@ -9,7 +9,7 @@ module.exports = {
     const users = await User.findAll({ attributes: ['id'] });
     const max = Math.min(users.length, orders.length);
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 50; i++) {
       arr.push({
         user_id: users[Math.floor(Math.random() * users.length)].dataValues.id,
         order_id:
